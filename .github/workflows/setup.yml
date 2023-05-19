@@ -16,8 +16,4 @@ jobs:
            distribution: 'temurin'
            cache: maven
        - name: Cleans the project data up
-         run: mvn --batch-mode --update-snapshots clean
-       - name: Compile the source code
-         run: mvn compile
-       - name: Run the unit tests
-         run: mvn test
+         run: mvn --batch-mode --update-snapshots clean compile test
