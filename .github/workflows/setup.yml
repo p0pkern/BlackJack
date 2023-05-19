@@ -15,5 +15,5 @@ jobs:
            java-version: '17'
            distribution: 'temurin'
            cache: maven
-       - name: Cleans the project data up
-         run: mvn --batch-mode --update-snapshots clean compile test
+       - name: Clean, compile and test the code
+         run: mvn --batch-mode --update-snapshots clean compile test jacoco:report
