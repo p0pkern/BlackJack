@@ -15,5 +15,9 @@ jobs:
            java-version: '17'
            distribution: 'temurin'
            cache: maven
-       - name: Build with Maven
-         run: mvn --batch-mode --update-snapshots package
+       - name: Cleans the project data up
+         run: mvn --batch-mode --update-snapshots clean
+       - name: Compile the source code
+         run: mvn compile
+       - name: Run the unit tests
+         run: mvn test
