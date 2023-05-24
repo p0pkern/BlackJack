@@ -22,7 +22,7 @@
     
     <h2>The Cards</h2>
     <ul>
-        <li th:each="h : ${home}" th:text="${h.getRank()} + ' of ' + ${h.getSuit()}"></li>
+        <li th:each="card : ${deck}" th:text="${card.getId()} + ' ' + ${card.getRank()} + ' of ' + ${card.getSuit()}"></li>
     </ul>
 </body>
 </html>
