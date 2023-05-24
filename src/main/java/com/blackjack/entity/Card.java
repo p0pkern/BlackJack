@@ -1,32 +1,31 @@
 package com.blackjack.entity;
 
+import com.blackjack.enums.Rank;
+import com.blackjack.enums.Suit;
+
 public class Card {
-	private Character rank;
-	private Character suit;
-	private int value;
-
-	public Character getRank() {
-		return rank;
-	}
-
-	public void setRank(Character rank) {
+	private Rank rank;
+	private Suit suit;
+	
+	public Card(Rank rank, Suit suit) {
 		this.rank = rank;
-	}
-
-	public Character getSuit() {
-		return suit;
-	}
-
-	public void setSuit(Character suit) {
 		this.suit = suit;
 	}
 
-	public int getValue() {
-		return value;
+	public Rank getRank() {
+		return rank;
 	}
 
-	public void setValue(int value) {
-		this.value = value;
+	public void setRank(Rank rank) {
+		this.rank = rank;
+	}
+
+	public Suit getSuit() {
+		return suit;
+	}
+
+	public void setSuit(Suit suit) {
+		this.suit = suit;
 	}
 
 }
