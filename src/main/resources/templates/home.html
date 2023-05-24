@@ -19,5 +19,10 @@
         <button>Hit</button>
         <button>Stand</button>
     </div>
+    
+    <h2>The Cards</h2>
+    <ul>
+        <li th:each="h : ${home}" th:text="${h.getRank()} + ' of ' + ${h.getSuit()}"></li>
+    </ul>
 </body>
 </html>

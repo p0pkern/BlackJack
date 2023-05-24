@@ -9,16 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Deck {
-	private int size;
-	
-	public Deck() {
-		this.size = 1;
-	}
-	
-	public Deck(int size) {
-		if(size < 1) this.size = 1;
-		else this.size = size;
-	}
 	
 	private List<Card> createADeck() {
 		List<Card> newDeck = new ArrayList<>();
@@ -33,12 +23,12 @@ public class Deck {
 		return newDeck;
 	}
 	
-	public List<Card> getDeck() {
+	public List<Card> getDeck(int size) {
 		List<Card> newDeck = new ArrayList<>();
-		if(this.size == 1)
+		if(size <= 1)
 			return createADeck();
 		else {
-			for(int i = 0; i < this.size; i++) {
+			for(int i = 0; i < size; i++) {
 				newDeck.addAll(createADeck());
 			}
 		}
