@@ -8,12 +8,16 @@
     <h1>Black Jack</h1>
     
     <h2>Dealer</h2>
-    <p>Card 1: #</p>
-    <p>Card 2: #</p>
+    <h3>Current Cards:</h3>
+    <ul>
+        <li th:each="c : ${dealerCards}" th:text="${c}"></li>
+    </ul>
     
     <h2>Player</h2>
-    <p>Card 1: #</p>
-    <p>Card 2: #</p>
+    <h3>Current Cards:</h3>
+    <ul>
+        <li th:each"card : ${player.getHand()}" th:text="${card}"></li>
+    </ul>
     
     <div>
         <button>Hit</button>

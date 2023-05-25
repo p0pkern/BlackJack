@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.blackjack.service.CardService;
 import com.blackjack.service.HandService;
+
 import com.blackjack.entity.Card;
 import com.blackjack.entity.Hand;
 
 @Controller
-public class BlackJackController {
+public class BlackJackController{
 	private final CardService cardService;
 	private final HandService handService;
 	
@@ -26,14 +27,24 @@ public class BlackJackController {
 	@GetMapping("/")
 	public String getCards(Model model) {
 		List<Card> deck = cardService.getAllCards();
-		Hand dealer = handService.getHand(0L);
+		Hand dealer = handService.getHand(1);;
+		Hand player = null;
 		
 		if(deck.isEmpty()) {
 			deck = cardService.generateDeck();
 			cardService.saveDeck(deck);
 		}
 		
+		dealer.drawCard(1);
+		dealer.drawCard(2);
+		
+		List<Integer> dealerCards = dealer.getHand();
+		
+		System.out.println(dealerCards);
+		
 		model.addAttribute("deck", deck);
+		model.addAttribute("dealerCards", dealerCards);
+		model.addAttribute("player", player);
 		return "index";
 	}
 }

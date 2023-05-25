@@ -15,8 +15,20 @@ public class HandService {
 		this.handRepository = handRepository;
 	}
 	
-	public Hand getHand(Long id) {
-		return handRepository.getReferenceById(id);
+	public Hand getHand(int id) {
+		boolean exists = handRepository.existsById(id);
+		
+		Hand hand = null;
+		
+		if(exists) {
+			hand = handRepository.getReferenceById(id);
+		} else {
+			hand = new Hand();
+			hand.setId(1);
+			saveHand(hand);
+		}
+		
+		return hand;
 	}
 	
 	public void saveHand(Hand hand) {
