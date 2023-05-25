@@ -14,7 +14,7 @@ public class Hand {
 	private Long id;
 	
 	private int player;
-	private List<Card> hand;
+	private List<Integer> hand;
 	private int score;
 	private boolean bust;
 
@@ -26,11 +26,11 @@ public class Hand {
 		this.id = id;
 	}
 
-	public List<Card> getHand() {
+	public List<Integer> getHand() {
 		return hand;
 	}
 
-	public void setHand(List<Card> hand) {
+	public void setHand(List<Integer> hand) {
 		this.hand = hand;
 	}
 
