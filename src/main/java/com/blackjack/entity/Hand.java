@@ -50,6 +50,6 @@ public class Hand {
 	}
 	
 	public void drawCard(Card card) {
-		this.hand.add(card);
+		
 	}
 }
