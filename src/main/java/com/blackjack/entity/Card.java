@@ -7,7 +7,21 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+/**
+ * The Card class represents a single card from the standard 52 card, card deck.
+ * e.g. the ones that Bicycle has produced.
+ * 
+ * Key Functionality:
+ * - Id will be randomly generated and use to indicate position of card in the deck.
+ * - rank will be used for score keeping utilizing the ScoreCard class
+ * - suit will be used for UI purposes and ensuring the correct amount of cards are in a deck.
+ * 
+ * Example Usage:
+ * Card card = new Card();
+ * Card card = new Card(Rank.TWO, Suit.CLUB) // See Rank and Suit Enums for explanations.
+ * 
+ *
+ */
 @Entity
 public class Card {
 	@Id
