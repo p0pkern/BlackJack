@@ -12,7 +12,8 @@ public class Hand {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
+	private int player;
 	private List<Card> hand;
 	private int score;
 	private boolean bust;
@@ -49,6 +50,14 @@ public class Hand {
 		this.bust = bust;
 	}
 	
+	public int getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(int player) {
+		this.player = player;
+	}
+
 	public void drawCard(Card card) {
 		
 	}
