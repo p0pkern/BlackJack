@@ -12,6 +12,7 @@ public class Player {
 	private int playerId;
 	
 	private int currentScore;
+	private int currentTurn;
 	private Hand currentHand;
 	private List<Hand> previousHands;
 	private List<Integer> previousScores;
@@ -59,6 +60,22 @@ public class Player {
 
 	public void setPreviousScores(List<Integer> previousScores) {
 		this.previousScores = previousScores;
+	}
+
+	public int getPlayerId() {
+		return playerId;
+	}
+
+	public void setPlayerId(int playerId) {
+		this.playerId = playerId;
+	}
+
+	public int getCurrentTurn() {
+		return currentTurn;
+	}
+
+	public void setCurrentTurn(int currentTurn) {
+		this.currentTurn = currentTurn;
 	}
 	
 }
