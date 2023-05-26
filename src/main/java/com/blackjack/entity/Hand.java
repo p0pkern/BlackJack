@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+/**
+ * Represents a hand in the game of Black Jack.
+ */
 @Entity
 public class Hand {
 	@Id
@@ -16,10 +19,22 @@ public class Hand {
 	private int score;
 	private boolean bust;
 	
+	/**
+	 * Default constructor
+	 */
 	public Hand() {
 		hand = new ArrayList<>();
 	}
 	
+	/**
+	 * Constructs the hand with the specified parameters
+	 * 
+	 * @param id		the ID of the hand
+	 * @param player	the player ID associated with the hand
+	 * @param hand		the list of cards in the hand
+	 * @param score		the current score of the hand
+	 * @param bust		a flag indicating if the hand is bust (score exceeds a limit)
+	 */
 	public Hand(int id, int player, List<Integer> hand, int score, boolean bust) {
 		this.id = id;
 		this.player = player;
@@ -27,7 +42,7 @@ public class Hand {
 		this.score = score;
 		this.bust = bust;
 	}
-
+	
 	public int getId() {
 		return id;
 	}
@@ -68,6 +83,11 @@ public class Hand {
 		this.player = player;
 	}
 	
+	/**
+	 * Draws a card and adds it to the hand.
+	 * 
+	 * @param the card to be added to the hand.
+	 */
 	public void drawCard(int card) {
 		this.hand.add(card);
 	}
