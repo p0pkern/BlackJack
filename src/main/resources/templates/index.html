@@ -10,7 +10,7 @@
     <h2>Dealer</h2>
     <h3>Current Cards:</h3>
     <ul>
-        <li th:each="c : ${dealerCards}" th:text="${c}"></li>
+        <li th:each="card : ${dealerHand}" th:text="${card.getId()} + ' ' + ${card.getRank()} + ' of ' + ${card.getSuit()}"></li>
     </ul>
     
     <h2>Player</h2>

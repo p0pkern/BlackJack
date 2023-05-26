@@ -1,6 +1,7 @@
 package com.blackjack.controller;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,10 +41,15 @@ public class BlackJackController{
 		
 		List<Integer> dealerCards = dealer.getHand();
 		
+		List<Card> dealerHand = new ArrayList<>();
+		
+		for(int c: dealerCards) {
+			dealerHand.add(deck.get(c - 1));
+		}
 		System.out.println(dealerCards);
 		
 		model.addAttribute("deck", deck);
-		model.addAttribute("dealerCards", dealerCards);
+		model.addAttribute("dealerHand", dealerHand);
 		model.addAttribute("player", player);
 		return "index";
 	}
