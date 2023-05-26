@@ -16,7 +16,7 @@
     <h2>Player</h2>
     <h3>Current Cards:</h3>
     <ul>
-        <li th:each"card : ${player.getHand()}" th:text="${card}"></li>
+        <li th:each="card : ${playerHand}" th:text="${card.getId()} + ' ' + ${card.getRank()} + ' of ' + ${card.getSuit()}"></li>
     </ul>
     
     <div>

@@ -25,32 +25,48 @@ public class BlackJackController{
 		this.handService = handService;
 	}
 	
-	@GetMapping("/")
-	public String getCards(Model model) {
+	private List<Card> getCurrentDeck() {
 		List<Card> deck = cardService.getAllCards();
-		Hand dealer = handService.getHand(1);;
-		Hand player = null;
 		
 		if(deck.isEmpty()) {
 			deck = cardService.generateDeck();
 			cardService.saveDeck(deck);
 		}
 		
-		dealer.drawCard(1);
-		dealer.drawCard(2);
+		return deck;
+	}
+	
+	private List<Card> getCurrentHand(List<Integer> hand, List<Card> deck) {
+		List<Card> convertedHand = new ArrayList<>();
 		
-		List<Integer> dealerCards = dealer.getHand();
-		
-		List<Card> dealerHand = new ArrayList<>();
-		
-		for(int c: dealerCards) {
-			dealerHand.add(deck.get(c - 1));
+		for(int c: hand) {
+			convertedHand.add(deck.get(c));
 		}
-		System.out.println(dealerCards);
+		
+		return convertedHand;
+	}
+	
+	@GetMapping("/")
+	public String getCards(Model model) {
+		List<Card> deck = getCurrentDeck();
+		Hand dealer = handService.getHand(1);
+		Hand player = handService.getHand(2);
+
+		dealer.drawCard(0);
+		dealer.drawCard(1);
+		
+		player.drawCard(2);
+		player.drawCard(3);
+		
+		List<Card> dealerHand = getCurrentHand(dealer.getHand(), deck);
+		List<Card> playerHand = getCurrentHand(player.getHand(), deck);
+		
+		handService.saveHand(player);
+		handService.saveHand(dealer);
 		
 		model.addAttribute("deck", deck);
 		model.addAttribute("dealerHand", dealerHand);
-		model.addAttribute("player", player);
+		model.addAttribute("playerHand", playerHand);
 		return "index";
 	}
 }
