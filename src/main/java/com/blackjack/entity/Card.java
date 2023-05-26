@@ -63,5 +63,18 @@ public class Card {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
+	public String getUnicodeSuit() {
+		/*
+		 * Using the suits enum, this will parse and return
+		 * the html code for each suit symbol.
+		 */
+		switch(this.suit) {
+		case CLUB: return "&#9827;";
+		case DIAMOND: return "&#9830;";
+		case SPADE: return "&#9828;";
+		case HEART: return "&#9825;";
+		default: return "???";
+		}
+	}
 }

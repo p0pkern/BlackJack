@@ -46,11 +46,15 @@ public class BlackJackController{
 		return convertedHand;
 	}
 	
+	private Hand getCurrentHand(int player) {
+		return handService.getHand(player);
+	}
+	
 	@GetMapping("/")
 	public String getCards(Model model) {
 		List<Card> deck = getCurrentDeck();
-		Hand dealer = handService.getHand(1);
-		Hand player = handService.getHand(2);
+		Hand dealer = getCurrentHand(1);
+		Hand player = getCurrentHand(2);
 
 		dealer.drawCard(0);
 		dealer.drawCard(1);
@@ -64,9 +68,15 @@ public class BlackJackController{
 		handService.saveHand(player);
 		handService.saveHand(dealer);
 		
+		int dealerScore = 10;
+		int playerScore = 20;
+		
 		model.addAttribute("deck", deck);
 		model.addAttribute("dealerHand", dealerHand);
+		model.addAttribute("dealerScore", dealerScore);
 		model.addAttribute("playerHand", playerHand);
+		model.addAttribute("playerScore", playerScore);
+		
 		return "index";
 	}
 }

@@ -8,15 +8,17 @@
     <h1>Black Jack</h1>
     
     <h2>Dealer</h2>
+    <p th:text="score + ' ' + ${dealerScore}"></p>
     <h3>Current Cards:</h3>
     <ul>
-        <li th:each="card : ${dealerHand}" th:text="${card.getId()} + ' ' + ${card.getRank()} + ' of ' + ${card.getSuit()}"></li>
+        <li th:each="card : ${dealerHand}" data-th-utext="${card.getUnicodeSuit()} + ' ' + ${card.getRank()}"></li>
     </ul>
     
     <h2>Player</h2>
+    <p th:text="score + ' ' + ${playerScore}"></p>
     <h3>Current Cards:</h3>
     <ul>
-        <li th:each="card : ${playerHand}" th:text="${card.getId()} + ' ' + ${card.getRank()} + ' of ' + ${card.getSuit()}"></li>
+        <li th:each="card : ${playerHand}" data-th-utext="${card.getUnicodeSuit()} + ' ' + ${card.getRank()}"></li>
     </ul>
     
     <div>
@@ -26,7 +28,7 @@
     
     <h2>The Cards</h2>
     <ul>
-        <li th:each="card : ${deck}" th:text="${card.getId()} + ' ' + ${card.getRank()} + ' of ' + ${card.getSuit()}"></li>
+        <li th:each="card : ${deck}"  data-th-utext="${card.getId()} + ' ' + ${card.getRank()} + ' ' + ${card.getUnicodeSuit()}"></li>
     </ul>
 </body>
 </html>
