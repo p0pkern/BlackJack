@@ -3,9 +3,15 @@
 <head> 
     <title>Black Jack</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script th:inline="javascript">
+        var hitEndpointUrl = /*[[ @{'/hit'} ]]*/ '';
+    </script>
+    <script src="/script.js"></script>
 </head>
 <body>
     <h1>Black Jack</h1>
+    <h2>Current Card</h2>
+    <p th:text="${currentCard}"></p>
     
     <h2>Dealer</h2>
     <p th:text="score + ' ' + ${dealerScore}"></p>
@@ -22,7 +28,7 @@
     </ul>
     
     <div>
-        <button>Hit</button>
+        <button onclick="hit()">Hit</button>
         <button>Stand</button>
     </div>
     
