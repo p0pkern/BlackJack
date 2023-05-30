@@ -135,7 +135,8 @@ public class BlackJackController {
 				dealerWins = ScoreCard.isBlackJack(dealerScore);
 		}
 
-		model.addAttribute("currentCard", currentTurn);
+		model.addAttribute("currentCard", drawTurn);
+		model.addAttribute("currentTurn", currentTurn);
 		model.addAttribute("deck", deck);
 
 		model.addAttribute("dealerHand", dealerHand);
