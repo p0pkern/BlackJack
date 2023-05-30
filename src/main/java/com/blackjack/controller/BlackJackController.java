@@ -129,11 +129,13 @@ public class BlackJackController {
 			playerWins = true;
 		else if(ScoreCard.isBlackJack(dealer.getScore()))
 			dealerWins = true;
-		else if(stand && dealer.getScore() > dealer.getScore())
+		else if(stand && dealer.getScore() > player.getScore())
 			dealerWins = true;
 		else if(stand && dealer.getScore() <= player.getScore())
 			playerWins = true;
-
+		
+		logger.info("Dealer Wins {}", dealerWins );
+		
 		model.addAttribute("currentCard", drawTurn);
 		model.addAttribute("currentTurn", currentTurn);
 		model.addAttribute("deck", deck);
@@ -174,6 +176,7 @@ public class BlackJackController {
 		player.setScore(0);
 		dealer.getHand().clear();
 		player.getHand().clear();
+		this.stand = false;
 		
 		if(drawTurn > deck.size() - 1) {
 			deleteOldDeck();
@@ -189,4 +192,18 @@ public class BlackJackController {
 		return new RedirectView("/");
 	}
 	
+	@GetMapping("/stand")
+	public RedirectView stand(Model model) {
+		logger.info("Player elects to stand");
+		this.stand = true;
+		while(dealer.getScore() < 17) {
+			drawACard(dealer);
+			dealerHand = convertHandToCardHand(dealer.getHand());
+			scoreHand(dealerHand, dealer);
+		}
+		
+		logger.info("{}",dealer.getScore());
+		
+		return new RedirectView("/");
+	}
 }
