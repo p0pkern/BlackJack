@@ -88,6 +88,8 @@ public class BlackJackController {
 		int playerScore = 0;
 
 		for (Card card : dealerHand) {
+			if(ScoreCard.isBust(card, dealerScore))
+				dealer.setBust(true);
 			dealerScore += ScoreCard.score(card, dealerScore);
 		}
 
@@ -96,17 +98,34 @@ public class BlackJackController {
 				player.setBust(true);
 			playerScore += ScoreCard.score(card, playerScore);
 		}
-
+		
+		boolean playerWins = false;
+		boolean dealerWins = false;
+		
+		if(dealer.isBust()) {
+			playerWins = true;
+		} else if(!dealer.isBust() && player.isBust()) {
+			dealerWins = true;
+		} else {
+			playerWins = ScoreCard.isBlackJack(playerScore);
+			if(!playerWins)
+				dealerWins = ScoreCard.isBlackJack(dealerScore);
+		}
+		
+		System.out.println(playerWins);
+		System.out.println(dealerWins);
 		model.addAttribute("currentCard", drawTurn);
 		model.addAttribute("deck", deck);
 		
-		model.addAttribute("dealerBust", true);
 		model.addAttribute("dealerHand", dealerHand);
 		model.addAttribute("dealerScore", dealerScore);
 		
-		model.addAttribute("playerBust", player.isBust());
 		model.addAttribute("playerHand", playerHand);
 		model.addAttribute("playerScore", playerScore);
+		
+		// Win conditions
+		model.addAttribute("dealerWins", dealerWins);
+		model.addAttribute("playerWins", playerWins);
 
 		return "index";
 	}
