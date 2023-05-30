@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import com.blackjack.repository.CardRepository;
 @Service
 public class CardService {
 	private final CardRepository cardRepository;
+	private final Logger logger = LoggerFactory.getLogger(CardService.class);
 	
 	@Autowired
 	public CardService(CardRepository cardRepository) {
@@ -22,14 +25,17 @@ public class CardService {
 	}
 	
 	public List<Card> getAllCards(){
+		logger.info("Retrieving all cards");
 		return cardRepository.findAll();
 	}
 	
 	public void saveDeck(List<Card> deck) {
+		logger.info("Saving deck");
 		cardRepository.saveAll(deck);
 	}
 	
 	public List<Card> generateDeck() {
+		logger.info("Generating new deck");
 		List<Card> deck = new ArrayList<>();
 		
 		for(Suit suit : Suit.values()) {
@@ -44,5 +50,10 @@ public class CardService {
 		Collections.shuffle(deck);
 		
 		return deck;
+	}
+	
+	public void deleteAll() {
+		logger.info("Deleting all cards");
+		cardRepository.deleteAll();
 	}
 }

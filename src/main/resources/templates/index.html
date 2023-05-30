@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script th:inline="javascript">
         var hitEndpointUrl = /*[[ @{'/hit'} ]]*/ '';
+        var newHandEndpointUrl = /*[[ @{'/newHand'} ]]*/ '';
     </script>
     <script src="/script.js"></script>
     <link rel="stylesheet" type="text/css" href="/style.css">
@@ -35,7 +36,7 @@
     </ul>
     
     <div th:if="${dealerBust} or ${playerBust} or ${dealerWins} or ${playerWins}">
-        <button>Next Hand?</button>
+        <button onclick="newHand()">Next Hand?</button>
     </div>
     <div th:unless="${dealerBust} or ${playerBust} or ${dealerWins} or ${playerWins}">
         <button onclick="hit()">Hit</button>
