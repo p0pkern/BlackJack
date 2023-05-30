@@ -27,7 +27,7 @@ public class BlackJackController {
 	private List<Card> dealerHand = new ArrayList<>();
 	private List<Card> playerHand = new ArrayList<>();
 	private List<Card> deck;
-	private boolean stand;
+	private boolean stand = false;
 	private static int drawTurn;
 	private static int currentTurn;
 	private final Logger logger = LoggerFactory.getLogger(BlackJackController.class);
@@ -99,24 +99,23 @@ public class BlackJackController {
 		handService.saveHand(dealer);
 	}
 	
-	private int scoreHand(List<Card> currHand, Hand currPlayer) {
+	private void scoreHand(List<Card> currHand, Hand currPlayer) {
 		int score = 0;
 		for (Card card : currHand) {
-			currPlayer.setBust(ScoreCard.isBust(card, score));
-			score += ScoreCard.score(card, score);
+			score += ScoreCard.score(card, currPlayer.getScore());
 		}
-		return score;
+		currPlayer.setBust(ScoreCard.isBust(score));
+		currPlayer.setScore(score);
 	}
 
 	@GetMapping("/")
 	public String start(Model model) {
 
-		if (drawTurn == 0) {
+		if (drawTurn == 0)
 			startGame();
-		}
 
-		int dealerScore = scoreHand(dealerHand, dealer);
-		int playerScore = scoreHand(playerHand, player);
+		scoreHand(dealerHand, dealer);
+		scoreHand(playerHand, player);
 
 		boolean playerWins = false;
 		boolean dealerWins = false;
@@ -126,13 +125,13 @@ public class BlackJackController {
 			playerWins = true;
 		else if (!dealer.isBust() && player.isBust())
 			dealerWins = true;
-		else if(ScoreCard.isBlackJack(playerScore))
+		else if(ScoreCard.isBlackJack(player.getScore()))
 			playerWins = true;
-		else if(ScoreCard.isBlackJack(dealerScore))
+		else if(ScoreCard.isBlackJack(dealer.getScore()))
 			dealerWins = true;
-		else if(stand && dealerScore > playerScore)
+		else if(stand && dealer.getScore() > dealer.getScore())
 			dealerWins = true;
-		else if(stand && dealerScore <= playerScore)
+		else if(stand && dealer.getScore() <= player.getScore())
 			playerWins = true;
 
 		model.addAttribute("currentCard", drawTurn);
@@ -140,10 +139,10 @@ public class BlackJackController {
 		model.addAttribute("deck", deck);
 
 		model.addAttribute("dealerHand", dealerHand);
-		model.addAttribute("dealerScore", dealerScore);
+		model.addAttribute("dealerScore", dealer.getScore());
 
 		model.addAttribute("playerHand", playerHand);
-		model.addAttribute("playerScore", playerScore);
+		model.addAttribute("playerScore", player.getScore());
 
 		// Win conditions
 		model.addAttribute("dealerWins", dealerWins);

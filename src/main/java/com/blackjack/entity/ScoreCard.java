@@ -53,6 +53,10 @@ public class ScoreCard {
 		return currScore + score(card, currScore) > 21;
 	}
 	
+	public static boolean isBust(int currScore) {
+		return currScore > 21;
+	}
+	
 	public static boolean isBlackJack(int currScore) {
 		return currScore == 21;
 	}
