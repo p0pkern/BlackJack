@@ -100,7 +100,7 @@ public class BlackJackController {
 		model.addAttribute("currentCard", drawTurn);
 		model.addAttribute("deck", deck);
 		
-		model.addAttribute("dealerBust", dealer.isBust());
+		model.addAttribute("dealerBust", true);
 		model.addAttribute("dealerHand", dealerHand);
 		model.addAttribute("dealerScore", dealerScore);
 		

@@ -22,8 +22,11 @@
     </ul>
     
     <h2>Player</h2>
-    <p th:if="${playerBust}" th:text="'Score: ' + ${playerScore} + ' BUST!'"></p>
-    <p th:unless="${playerBust}" th:text="'Score: ' + ${playerScore}"></p>
+    <p th:if="${dealerBust}" th:text="'Player Wins! ' + ${playerScore}"></p>
+    <p th:unless="${dealerBust}" th:if="${playerBust}" th:text="'Score: ' + ${playerScore} + ' BUST!'"></p>
+    <p th:unless="${dealerBust} or ${playerBust}" th:text="'Score: ' + ${playerScore}"></p>
+    
+    
     <h3>Current Cards:</h3>
     <ul>
         <li th:each="card : ${playerHand}" data-th-utext="${card.getUnicodeSuit()} + ' ' + ${card.getRank()}"></li>
