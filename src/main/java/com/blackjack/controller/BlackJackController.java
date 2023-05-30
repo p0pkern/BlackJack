@@ -27,6 +27,7 @@ public class BlackJackController {
 	private List<Card> dealerHand = new ArrayList<>();
 	private List<Card> playerHand = new ArrayList<>();
 	private List<Card> deck;
+	private boolean stand;
 	private static int drawTurn;
 	private static int currentTurn;
 	private final Logger logger = LoggerFactory.getLogger(BlackJackController.class);
@@ -98,7 +99,14 @@ public class BlackJackController {
 		handService.saveHand(dealer);
 	}
 	
-	
+	private int scoreHand(List<Card> currHand, Hand currPlayer) {
+		int score = 0;
+		for (Card card : currHand) {
+			currPlayer.setBust(ScoreCard.isBust(card, score));
+			score += ScoreCard.score(card, score);
+		}
+		return score;
+	}
 
 	@GetMapping("/")
 	public String start(Model model) {
@@ -107,33 +115,25 @@ public class BlackJackController {
 			startGame();
 		}
 
-		int dealerScore = 0;
-		int playerScore = 0;
-
-		for (Card card : dealerHand) {
-			if (ScoreCard.isBust(card, dealerScore))
-				dealer.setBust(true);
-			dealerScore += ScoreCard.score(card, dealerScore);
-		}
-
-		for (Card card : playerHand) {
-			if (ScoreCard.isBust(card, playerScore))
-				player.setBust(true);
-			playerScore += ScoreCard.score(card, playerScore);
-		}
+		int dealerScore = scoreHand(dealerHand, dealer);
+		int playerScore = scoreHand(playerHand, player);
 
 		boolean playerWins = false;
 		boolean dealerWins = false;
-
-		if (dealer.isBust()) {
+		
+		// Check for bust
+		if (dealer.isBust())
 			playerWins = true;
-		} else if (!dealer.isBust() && player.isBust()) {
+		else if (!dealer.isBust() && player.isBust())
 			dealerWins = true;
-		} else {
-			playerWins = ScoreCard.isBlackJack(playerScore);
-			if (!playerWins)
-				dealerWins = ScoreCard.isBlackJack(dealerScore);
-		}
+		else if(ScoreCard.isBlackJack(playerScore))
+			playerWins = true;
+		else if(ScoreCard.isBlackJack(dealerScore))
+			dealerWins = true;
+		else if(stand && dealerScore > playerScore)
+			dealerWins = true;
+		else if(stand && dealerScore <= playerScore)
+			playerWins = true;
 
 		model.addAttribute("currentCard", drawTurn);
 		model.addAttribute("currentTurn", currentTurn);
@@ -171,6 +171,8 @@ public class BlackJackController {
 		playerHand.clear();
 		dealer.setBust(false);
 		player.setBust(false);
+		dealer.setScore(0);
+		player.setScore(0);
 		dealer.getHand().clear();
 		player.getHand().clear();
 		
@@ -187,4 +189,5 @@ public class BlackJackController {
 		
 		return new RedirectView("/");
 	}
+	
 }
