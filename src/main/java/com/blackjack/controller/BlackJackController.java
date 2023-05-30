@@ -92,13 +92,19 @@ public class BlackJackController {
 		}
 
 		for (Card card : playerHand) {
+			if(ScoreCard.isBust(card, playerScore))
+				player.setBust(true);
 			playerScore += ScoreCard.score(card, playerScore);
 		}
 
 		model.addAttribute("currentCard", drawTurn);
 		model.addAttribute("deck", deck);
+		
+		model.addAttribute("dealerBust", dealer.isBust());
 		model.addAttribute("dealerHand", dealerHand);
 		model.addAttribute("dealerScore", dealerScore);
+		
+		model.addAttribute("playerBust", player.isBust());
 		model.addAttribute("playerHand", playerHand);
 		model.addAttribute("playerScore", playerScore);
 

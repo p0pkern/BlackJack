@@ -48,4 +48,8 @@ public class ScoreCard {
 			return 0;
 		}
 	}
+	
+	public static boolean isBust(Card card, int currScore) {
+		return currScore + score(card, currScore) > 21;
+	}
 }

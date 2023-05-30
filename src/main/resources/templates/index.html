@@ -22,13 +22,17 @@
     </ul>
     
     <h2>Player</h2>
-    <p th:text="score + ' ' + ${playerScore}"></p>
+    <p th:if="${playerBust}" th:text="'Score: ' + ${playerScore} + ' BUST!'"></p>
+    <p th:unless="${playerBust}" th:text="'Score: ' + ${playerScore}"></p>
     <h3>Current Cards:</h3>
     <ul>
         <li th:each="card : ${playerHand}" data-th-utext="${card.getUnicodeSuit()} + ' ' + ${card.getRank()}"></li>
     </ul>
     
-    <div>
+    <div th:if="${playerBust}">
+        <button>Next Hand?</button>
+    </div>
+    <div th:unless="${playerBust}">
         <button onclick="hit()">Hit</button>
         <button>Stand</button>
     </div>

@@ -42,5 +42,20 @@ class ScoreCardTest {
 		
 		assertEquals(1, ScoreCard.score(card, currScore));
 	}
+	
+	@Test
+	void testBustOfCard() {
+		Card card = new Card(Rank.KING, Suit.CLUB);
+		int score = 18;
+		
+		assertTrue(ScoreCard.isBust(card, score));
+	}
+	
+	@Test
+	void testCardIsNotBust() {
+		Card card = new Card(Rank.ACE, Suit.CLUB);
+		int score = 11;
+		assertFalse(ScoreCard.isBust(card, score));
+	}
 
 }
