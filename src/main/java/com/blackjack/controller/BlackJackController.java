@@ -39,6 +39,10 @@ public class BlackJackController {
 		this.cardService = cardService;
 		this.handService = handService;
 	}
+	
+	private void deleteOldDeck() {
+		cardService.deleteAll();
+	}
 
 	private List<Card> getCurrentDeck() {
 		deck = cardService.getAllCards();
@@ -51,7 +55,7 @@ public class BlackJackController {
 		return deck;
 	}
 
-	private List<Card> getCurrentHand(List<Integer> hand) {
+	private List<Card> convertHandToCardHand(List<Integer> hand) {
 		logger.info("Converting hand into cards.");
 		List<Card> convertedHand = new ArrayList<>();
 
@@ -79,11 +83,16 @@ public class BlackJackController {
 
 		player.drawCard(drawTurn++);
 
-		this.dealerHand = getCurrentHand(dealer.getHand());
-		this.playerHand = getCurrentHand(player.getHand());
+		this.dealerHand = convertHandToCardHand(dealer.getHand());
+		this.playerHand = convertHandToCardHand(player.getHand());
 
 		handService.saveHand(player);
 		handService.saveHand(dealer);
+	}
+	
+	private void drawACard(Hand currPlayer) {
+		currPlayer.drawCard(drawTurn++);
+		handService.saveHand(currPlayer);
 	}
 
 	@GetMapping("/")
@@ -140,9 +149,8 @@ public class BlackJackController {
 	@GetMapping("/hit")
 	public RedirectView hit(Model model) {
 		logger.info("Player chooses hit");
-		player.drawCard(drawTurn++);
-		handService.saveHand(player);
-		playerHand = getCurrentHand(player.getHand());
+		drawACard(player);
+		playerHand = convertHandToCardHand(player.getHand());
 		return new RedirectView("/");
 	}
 
@@ -157,22 +165,15 @@ public class BlackJackController {
 		player.getHand().clear();
 		
 		if(drawTurn >= deck.size()) {
-			drawTurn = 0;
-			
-			deck = cardService.generateDeck();
-			cardService.saveDeck(deck);
+			deleteOldDeck();
+			deck = getCurrentDeck();
 		}
 		
-		dealer.drawCard(drawTurn++);
-		player.drawCard(drawTurn++);
+		drawACard(player);
+		drawACard(dealer);
 		
 		this.dealerHand = getCurrentHand(dealer.getHand());
 		this.playerHand = getCurrentHand(player.getHand());
-		
-		System.out.println(dealerHand);
-		
-		handService.saveHand(player);
-		handService.saveHand(dealer);
 		
 		return new RedirectView("/");
 	}
