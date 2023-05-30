@@ -28,6 +28,7 @@ public class BlackJackController {
 	private List<Card> playerHand = new ArrayList<>();
 	private List<Card> deck;
 	private static int drawTurn;
+	private static int currentTurn;
 	private final Logger logger = LoggerFactory.getLogger(BlackJackController.class);
 
 	static {
@@ -41,6 +42,7 @@ public class BlackJackController {
 	}
 	
 	private void deleteOldDeck() {
+		drawTurn = 0;
 		cardService.deleteAll();
 	}
 
@@ -70,6 +72,12 @@ public class BlackJackController {
 		return handService.getHand(player);
 	}
 	
+	private void drawACard(Hand currPlayer) {
+		currPlayer.drawCard(drawTurn++);
+		currentTurn++;
+		handService.saveHand(currPlayer);
+	}
+	
 	private void startGame() {
 		logger.info("Starting game.");
 		handService.deleteAll();
@@ -79,9 +87,9 @@ public class BlackJackController {
 		dealer = this.getHand(1);
 		player = this.getHand(2);
 		
-		dealer.drawCard(drawTurn++);
+		drawACard(dealer);
 
-		player.drawCard(drawTurn++);
+		drawACard(player);
 
 		this.dealerHand = convertHandToCardHand(dealer.getHand());
 		this.playerHand = convertHandToCardHand(player.getHand());
@@ -90,10 +98,7 @@ public class BlackJackController {
 		handService.saveHand(dealer);
 	}
 	
-	private void drawACard(Hand currPlayer) {
-		currPlayer.drawCard(drawTurn++);
-		handService.saveHand(currPlayer);
-	}
+	
 
 	@GetMapping("/")
 	public String start(Model model) {
@@ -130,7 +135,7 @@ public class BlackJackController {
 				dealerWins = ScoreCard.isBlackJack(dealerScore);
 		}
 
-		model.addAttribute("currentCard", drawTurn);
+		model.addAttribute("currentCard", currentTurn);
 		model.addAttribute("deck", deck);
 
 		model.addAttribute("dealerHand", dealerHand);
@@ -149,6 +154,10 @@ public class BlackJackController {
 	@GetMapping("/hit")
 	public RedirectView hit(Model model) {
 		logger.info("Player chooses hit");
+		if(drawTurn > deck.size() - 1) {
+			deleteOldDeck();
+			deck = getCurrentDeck();
+		}
 		drawACard(player);
 		playerHand = convertHandToCardHand(player.getHand());
 		return new RedirectView("/");
@@ -164,7 +173,7 @@ public class BlackJackController {
 		dealer.getHand().clear();
 		player.getHand().clear();
 		
-		if(drawTurn >= deck.size()) {
+		if(drawTurn > deck.size() - 1) {
 			deleteOldDeck();
 			deck = getCurrentDeck();
 		}
@@ -172,8 +181,8 @@ public class BlackJackController {
 		drawACard(player);
 		drawACard(dealer);
 		
-		this.dealerHand = getCurrentHand(dealer.getHand());
-		this.playerHand = getCurrentHand(player.getHand());
+		this.dealerHand = convertHandToCardHand(dealer.getHand());
+		this.playerHand = convertHandToCardHand(player.getHand());
 		
 		return new RedirectView("/");
 	}
