@@ -8,18 +8,25 @@
         var hitEndpointUrl = /*[[ @{'/hit'} ]]*/ '';
         var standEndpointUrl = /*[[ @{'/stand'} ]]*/ '';
         var newHandEndpointUrl = /*[[ @{'/newHand'} ]]*/ '';
-        
+
     </script>
     <script src="/script.js"></script>
     <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 
 <body>
-    <h1>Black Jack</h1>
-    <h2>Current Card in Deck</h2>
-    <p th:text="${currentCard}"></p>
-     <h2>Current Turn</h2>
-    <p th:text="${currentTurn}"></p>
+    <h1 id="title">Black Jack</h1>
+
+    <header class="turnHeading">
+        <div id="currentCardTracker">
+            <h2>Current Card in Deck</h2>
+            <p th:text="${currentCard}"></p>
+        </div>
+        <div id="currentTurnTracker">
+            <h2>Current Turn</h2>
+            <p th:text="${currentTurn}"></p>
+        </div>
+    </header>
 
     <h2>Dealer</h2>
     <p th:text="'Score: ' + ${dealerScore}"></p>
@@ -31,14 +38,12 @@
         <li th:each="card : ${dealerHand}" data-th-utext="${card.getUnicodeSuit()} + ' ' + ${card.getRank()}"></li>
     </ul>
 
-    <h2>Player</h2>
+    <h2 class="subheading">Player</h2>
     <p th:text="'Score: ' + ${playerScore}"></p>
-
-    <h3>Current Cards:</h3>
     <ul>
         <li th:each="card : ${playerHand}" data-th-utext="${card.getUnicodeSuit()} + ' ' + ${card.getRank()}"></li>
     </ul>
-    
+
     <div th:if="${dealerBust} or ${playerBust} or ${dealerWins} or ${playerWins}">
         <button onclick="newHand()">Next Hand?</button>
     </div>
@@ -46,7 +51,7 @@
         <button onclick="hit()">Hit</button>
         <button onclick="stand()">Stand</button>
     </div>
-    
+
 
     <h2>The Cards</h2>
     <ul>
