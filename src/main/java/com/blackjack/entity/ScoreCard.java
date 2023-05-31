@@ -14,6 +14,7 @@ public class ScoreCard {
      * @return the score 	value of the card
      */
 	public static int score(Card card, int currScore) {
+		
 		switch (card.getRank()) {
 		case TWO:
 			return 2;

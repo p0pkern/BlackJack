@@ -17,6 +17,7 @@ import com.blackjack.service.HandService;
 import com.blackjack.entity.Card;
 import com.blackjack.entity.Hand;
 import com.blackjack.entity.ScoreCard;
+import com.blackjack.enums.Rank;
 
 @Controller
 public class BlackJackController {
@@ -100,10 +101,23 @@ public class BlackJackController {
 	}
 	
 	private void scoreHand(List<Card> currHand, Hand currPlayer) {
-		int score = 0;
-		for (Card card : currHand) {
-			score += ScoreCard.score(card, currPlayer.getScore());
+		List<Card> aces = new ArrayList<>();
+		for(Card card: currHand) {
+			if(card.getRank() == Rank.ACE)
+				aces.add(card);
 		}
+		
+		int score = 0;
+		
+		for (Card card : currHand) {
+			if(card.getRank() != Rank.ACE)
+				score += ScoreCard.score(card, score);
+		}
+		
+		for(Card card: aces) {
+			score += ScoreCard.score(card, score);
+		}
+		
 		currPlayer.setBust(ScoreCard.isBust(score));
 		currPlayer.setScore(score);
 	}
@@ -162,6 +176,12 @@ public class BlackJackController {
 		}
 		drawACard(player);
 		playerHand = convertHandToCardHand(player.getHand());
+		
+		if(dealer.getScore() < 17) {
+			drawACard(dealer);
+			dealerHand = convertHandToCardHand(dealer.getHand());
+		}
+		
 		return new RedirectView("/");
 	}
 
@@ -196,7 +216,7 @@ public class BlackJackController {
 	public RedirectView stand(Model model) {
 		logger.info("Player elects to stand");
 		this.stand = true;
-		while(dealer.getScore() < 17) {
+		while(dealer.getScore() < 17 && dealer.getScore() < player.getScore()) {
 			drawACard(dealer);
 			dealerHand = convertHandToCardHand(dealer.getHand());
 			scoreHand(dealerHand, dealer);
