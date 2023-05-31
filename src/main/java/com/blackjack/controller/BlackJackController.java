@@ -163,6 +163,8 @@ public class BlackJackController {
 		// Win conditions
 		model.addAttribute("dealerWins", dealerWins);
 		model.addAttribute("playerWins", playerWins);
+		model.addAttribute("dealerBust", dealer.isBust());
+		model.addAttribute("playerBust", player.isBust());
 
 		return "index";
 	}
@@ -216,7 +218,8 @@ public class BlackJackController {
 	public RedirectView stand(Model model) {
 		logger.info("Player elects to stand");
 		this.stand = true;
-		while(dealer.getScore() < 17 || dealer.getScore() < player.getScore()) {
+		
+		while(dealer.getScore() <= player.getScore()) {
 			drawACard(dealer);
 			dealerHand = convertHandToCardHand(dealer.getHand());
 			scoreHand(dealerHand, dealer);
