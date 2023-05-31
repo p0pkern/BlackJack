@@ -34,11 +34,11 @@ A Black Jack application built using Spring Boot and Thymeleaf. It provides the 
 
 ## Screenshots
 
-![Screenshot 1](src/main/resources/static/assets/screenshot1.png)
+![Screenshot 1](/assets/screenshot1.png)
 *Start of game with actions to hit and stand*
 
-![Screenshot 2](src/main/resources/static/assets/screenshot2.png)
+![Screenshot 2](/assets/screenshot2.png)
 *Picture of dealer beating player*
 
-![Screenshot 3](src/main/resources/static/assets/screenshot3.png)
+![Screenshot 3](/assets/screenshot3.png)
 *Picture of player winning by dealer going bust (card values over 21)*
