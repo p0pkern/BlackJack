@@ -16,4 +16,4 @@ jobs:
            distribution: 'temurin'
            cache: maven
        - name: Clean, compile and test the code
-         run: mvn --batch-mode --update-snapshots clean compile test
+         run: mvn --batch-mode --update-snapshots clean verify
