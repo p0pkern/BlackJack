@@ -1,5 +1,8 @@
 package com.blackjack.entity;
 
-public class CardGraphics {
+import com.blackjack.enums.Rank;
+import com.blackjack.enums.Suit;
 
+public class CardGraphics {
+	
 }

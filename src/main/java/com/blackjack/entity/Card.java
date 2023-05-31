@@ -64,17 +64,51 @@ public class Card {
 		this.id = id;
 	}
 	
-	public String getUnicodeSuit() {
-		/*
-		 * Using the suits enum, this will parse and return
-		 * the html code for each suit symbol.
-		 */
-		switch(this.suit) {
-		case CLUB: return "&#9827;";
-		case DIAMOND: return "&#9830;";
-		case SPADE: return "&#9828;";
-		case HEART: return "&#9825;";
-		default: return "???";
+	public String convertRank() {
+		switch(this.rank) {
+		case TWO:
+			return "2";
+		case THREE:
+			return "3";
+		case FOUR:
+			return "4";
+		case FIVE:
+			return "5";
+		case SIX:
+			return "6";
+		case SEVEN:
+			return "7";
+		case EIGHT:
+			return "8";
+		case NINE:
+			return "9";
+		case TEN:
+			return "10";
+		case JACK:
+			return "J";
+		case QUEEN:
+			return "Q";
+		case KING:
+			return "K";
+		case ACE:
+			return "A";
+		default:
+			return "?";
+		}
+	}
+	
+	public String convertSuit() {
+		switch(this.suit){
+		case DIAMOND:
+			return "♦";
+		case SPADE:
+			return "♤";
+		case HEART:
+			return "♡";
+		case CLUB:
+			return "♣";
+		default:
+			return "?";
 		}
 	}
 }

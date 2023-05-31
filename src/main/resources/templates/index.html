@@ -35,19 +35,27 @@
 <p th:unless="${dealerBust}" th:if="${playerBust}" th:text="'WINNER!'"></p>
 <p th:if="${dealerWins}" th:text="'WINNER!'"></p>
 <p th:if="${playerWins}" th:text="'LOSE!'"></p>
-<ul>
-    <li th:each="card : ${dealerHand}" data-th-utext="${card.getUnicodeSuit()} + ' ' + ${card.getRank()}"></li>
+<ul class="card-spread">
+    <li th:each="card : ${dealerHand}">
+        <div class="card">
+            <div class="card-front">
+                <span class="card-rank-top" th:text="${card.convertRank()}"></span>
+                <span class="card-suit" th:text="${card.convertSuit()}"></span>
+                <span class="card-rank-bot" th:text="${card.convertRank()}"></span>
+            </div>
+        </div>
+    </li>
 </ul>
 
 <h2 class="subheading">Player</h2>
 <p th:text="'Score: ' + ${playerScore}"></p>
-<ul>
+<ul class="card-spread">
     <li th:each="card : ${playerHand}">
         <div class="card">
             <div class="card-front">
-                <span class="card-rank-top" th:text="${card.getCardRank()}"></span>
-                <span class="card-suit" data-th-utext="${card.getCardSuit()}"></span>
-                <span class="card-rank-bot" th:text="${card.getCardRank()}"></span>
+                <span class="card-rank-top" th:text="${card.convertRank()}"></span>
+                <span class="card-suit" th:text="${card.convertSuit()}"></span>
+                <span class="card-rank-bot" th:text="${card.convertRank()}"></span>
             </div>
         </div>
     </li>
