@@ -1,0 +1,50 @@
+.button {
+    width: 100px;
+    height: 40px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#hit {
+    background-color: red;
+    color: white;
+}
+
+#stand {
+    border: 1px solid black;
+    background-color: white;
+    color: black;
+}
+
+#hit:hover {
+    background-color: darkred;
+}
+
+#stand:hover {
+    background-color: black;
+    color: white;
+}
+
+#play {
+    background-color: black;
+    color: white;
+}
+
+#play:hover {
+    background-color: white;
+    border: 1px solid black;
+    color: black;
+}
+
+#button-bar{
+    display:flex;
+    flex-direction: row;
+    align-items: space-between;
+    padding: 20px;
+}
+

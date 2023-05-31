@@ -8,14 +8,14 @@
         var hitEndpointUrl = /*[[ @{'/hit'} ]]*/ '';
         var standEndpointUrl = /*[[ @{'/stand'} ]]*/ '';
         var newHandEndpointUrl = /*[[ @{'/newHand'} ]]*/ '';
-
     </script>
     <script src="/script.js"></script>
     <link rel="stylesheet" type="text/css" href="/style.css">
     <link rel="stylesheet" type="text/css" href="/card.css">
+    <link rel="stylesheet" type="text/css" href="/buttons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Aoboshi+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aoboshi+One&display=swap" rel="stylesheet">
 </head>
 
 <br>
@@ -32,60 +32,63 @@
     </div>
 </header>
 
-<h2>Dealer</h2>
-<p th:text="'Score: ' + ${dealerScore}"></p>
-<div class="card-spread">
-    <div class="text-overlay">
-        <p class="bust-color" th:if="${dealerBust}" th:text="'BUST!'"></p>
-        <p class="winner-color" th:unless="${dealerBust}" th:if="${playerBust}" th:text="'WINNER!'"></p>
-        <p class="winner-color" th:if="${dealerWins}" th:text="'WINNER!'"></p>
-        <p class="lose-color" th:if="${playerWins}" th:text="'LOSE!'"></p>
-    </div>
-    <ul class="card-list">
-        <li th:each="card : ${dealerHand}">
-            <div class="card">
-                <div
-                    th:class="${card.convertSuit() == '♥︎' or card.convertSuit() == '♦' ? 'card-front-red' : 'card-front'}">
-                    <span class="card-rank-top" th:text="${card.convertRank()}"></span>
-                    <span class="card-suit" th:text="${card.convertSuit()}"></span>
-                    <span class="card-rank-bot" th:text="${card.convertRank()}"></span>
+<main id="container">
+    <h2>Dealer</h2>
+    <p th:text="'Score: ' + ${dealerScore}"></p>
+    <div class="card-spread">
+        <div class="text-overlay">
+            <p class="bust-color" th:if="${dealerBust}" th:text="'BUST!'"></p>
+            <p class="winner-color" th:unless="${dealerBust}" th:if="${playerBust}" th:text="'WINNER!'"></p>
+            <p class="winner-color" th:if="${dealerWins}" th:text="'WINNER!'"></p>
+            <p class="lose-color" th:if="${playerWins}" th:text="'LOSE!'"></p>
+        </div>
+        <ul class="card-list">
+            <li th:each="card : ${dealerHand}">
+                <div class="card">
+                    <div
+                        th:class="${card.convertSuit() == '♥︎' or card.convertSuit() == '♦' ? 'card-front-red' : 'card-front'}">
+                        <span class="card-rank-top" th:text="${card.convertRank()}"></span>
+                        <span class="card-suit" th:text="${card.convertSuit()}"></span>
+                        <span class="card-rank-bot" th:text="${card.convertRank()}"></span>
+                    </div>
                 </div>
-            </div>
-        </li>
-    </ul>
-</div>
-
-<h2 class="subheading">Player</h2>
-<p th:text="'Score: ' + ${playerScore}"></p>
-<div class="card-spread">
-    <div class="text-overlay">
-        <p class="bust-color" th:if="${playerBust}" th:text="'BUST!'"></p>
-        <p class="winner-color" th:unless="${playerBust}" th:if="${dealerBust}" th:text="'WINNER!'"></p>
-        <p class="winner-color" th:if="${playerWins}" th:text="'WINNER!'"></p>
-        <p class="lose-color" th:if="${dealerWins}" th:text="'LOSE!'"></p>
+            </li>
+        </ul>
     </div>
-    <ul class="card-list">
-        <li th:each="card : ${playerHand}">
-            <div class="card">
-                <div
-                    th:class="${card.convertSuit() == '♥︎' or card.convertSuit() == '♦' ? 'card-front-red' : 'card-front'}">
-                    <span class="card-rank-top" th:text="${card.convertRank()}"></span>
-                    <span class="card-suit" th:text="${card.convertSuit()}"></span>
-                    <span class="card-rank-bot" th:text="${card.convertRank()}"></span>
+
+    <h2 class="subheading">Player</h2>
+    <p th:text="'Score: ' + ${playerScore}"></p>
+    <div class="card-spread">
+        <div class="text-overlay">
+            <p class="bust-color" th:if="${playerBust}" th:text="'BUST!'"></p>
+            <p class="winner-color" th:unless="${playerBust}" th:if="${dealerBust}" th:text="'WINNER!'"></p>
+            <p class="winner-color" th:if="${playerWins}" th:text="'WINNER!'"></p>
+            <p class="lose-color" th:if="${dealerWins}" th:text="'LOSE!'"></p>
+        </div>
+        <ul class="card-list">
+            <li th:each="card : ${playerHand}">
+                <div class="card">
+                    <div
+                        th:class="${card.convertSuit() == '♥︎' or card.convertSuit() == '♦' ? 'card-front-red' : 'card-front'}">
+                        <span class="card-rank-top" th:text="${card.convertRank()}"></span>
+                        <span class="card-suit" th:text="${card.convertSuit()}"></span>
+                        <span class="card-rank-bot" th:text="${card.convertRank()}"></span>
+                    </div>
                 </div>
-            </div>
-        </li>
-    </ul>
-</div>
+            </li>
+        </ul>
+    </div>
 
-<div th:if="${dealerBust} or ${playerBust} or ${dealerWins} or ${playerWins}">
-    <button onclick="newHand()">Next Hand?</button>
-</div>
-<div th:unless="${dealerBust} or ${playerBust} or ${dealerWins} or ${playerWins}">
-    <button onclick="hit()">Hit</button>
-    <button onclick="stand()">Stand</button>
-</div>
-
+    <div id="button-bar">
+        <div th:if="${dealerBust} or ${playerBust} or ${dealerWins} or ${playerWins}">
+            <button id="play" class="button" onclick="newHand()">Play Again?</button>
+        </div>
+        <div th:unless="${dealerBust} or ${playerBust} or ${dealerWins} or ${playerWins}">
+            <button id="hit" class="button" onclick="hit()">Hit</button>
+            <button id="stand" class="button" onclick="stand()">Stand</button>
+        </div>
+    </div>
+</main>
 </body>
 
 </html>

@@ -177,7 +177,7 @@ public class BlackJackController {
 		drawACard(player);
 		playerHand = convertHandToCardHand(player.getHand());
 		
-		if(dealer.getScore() < 17) {
+		if(dealer.getScore() < 17 && dealer.getScore() < player.getScore()) {
 			drawACard(dealer);
 			dealerHand = convertHandToCardHand(dealer.getHand());
 		}
@@ -216,7 +216,7 @@ public class BlackJackController {
 	public RedirectView stand(Model model) {
 		logger.info("Player elects to stand");
 		this.stand = true;
-		while(dealer.getScore() < 17 && dealer.getScore() < player.getScore()) {
+		while(dealer.getScore() < 17 || dealer.getScore() < player.getScore()) {
 			drawACard(dealer);
 			dealerHand = convertHandToCardHand(dealer.getHand());
 			scoreHand(dealerHand, dealer);
