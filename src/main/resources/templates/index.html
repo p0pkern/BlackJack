@@ -12,46 +12,71 @@
     </script>
     <script src="/script.js"></script>
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="/card.css">
 </head>
 
-<body>
-    <h1 id="title">Black Jack</h1>
+<br>
+<h1 id="title">Black Jack</h1>
 
-    <header class="turnHeading">
-        <div id="currentCardTracker">
-            <h2>Current Card in Deck</h2>
-            <p th:text="${currentCard}"></p>
-        </div>
-        <div id="currentTurnTracker">
-            <h2>Current Turn</h2>
-            <p th:text="${currentTurn}"></p>
-        </div>
-    </header>
-
-    <h2>Dealer</h2>
-    <p th:text="'Score: ' + ${dealerScore}"></p>
-    <p th:if="${dealerBust}" th:text="'BUST!'"></p>
-    <p th:unless="${dealerBust}" th:if="${playerBust}" th:text="'WINNER!'"></p>
-    <p th:if="${dealerWins}" th:text="'WINNER!'"></p>
-    <p th:if="${playerWins}" th:text="'LOSE!'"></p>
-    <ul>
-        <li th:each="card : ${dealerHand}" data-th-utext="${card.getUnicodeSuit()} + ' ' + ${card.getRank()}"></li>
-    </ul>
-
-    <h2 class="subheading">Player</h2>
-    <p th:text="'Score: ' + ${playerScore}"></p>
-    <ul>
-        <li th:each="card : ${playerHand}" data-th-utext="${card.getUnicodeSuit()} + ' ' + ${card.getRank()}"></li>
-    </ul>
-
-    <div th:if="${dealerBust} or ${playerBust} or ${dealerWins} or ${playerWins}">
-        <button onclick="newHand()">Next Hand?</button>
+<header class="turnHeading">
+    <div id="currentCardTracker">
+        <h2>Current Card in Deck</h2>
+        <p th:text="${currentCard}"></p>
     </div>
-    <div th:unless="${dealerBust} or ${playerBust} or ${dealerWins} or ${playerWins}">
-        <button onclick="hit()">Hit</button>
-        <button onclick="stand()">Stand</button>
+    <div id="currentTurnTracker">
+        <h2>Current Turn</h2>
+        <p th:text="${currentTurn}"></p>
     </div>
-    
+</header>
+
+<h2>Dealer</h2>
+<p th:text="'Score: ' + ${dealerScore}"></p>
+<p th:if="${dealerBust}" th:text="'BUST!'"></p>
+<p th:unless="${dealerBust}" th:if="${playerBust}" th:text="'WINNER!'"></p>
+<p th:if="${dealerWins}" th:text="'WINNER!'"></p>
+<p th:if="${playerWins}" th:text="'LOSE!'"></p>
+<ul>
+    <li th:each="card : ${dealerHand}" data-th-utext="${card.getUnicodeSuit()} + ' ' + ${card.getRank()}"></li>
+</ul>
+
+<h2 class="subheading">Player</h2>
+<p th:text="'Score: ' + ${playerScore}"></p>
+<ul>
+    <li th:each="card : ${playerHand}">
+        <div class="card">
+            <div class="card-front">
+                <span class="card-rank-top" th:text="${card.getCardRank()}"></span>
+                <span class="card-suit" data-th-utext="${card.getCardSuit()}"></span>
+                <span class="card-rank-bot" th:text="${card.getCardRank()}"></span>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<div th:if="${dealerBust} or ${playerBust} or ${dealerWins} or ${playerWins}">
+    <button onclick="newHand()">Next Hand?</button>
+</div>
+<div th:unless="${dealerBust} or ${playerBust} or ${dealerWins} or ${playerWins}">
+    <button onclick="hit()">Hit</button>
+    <button onclick="stand()">Stand</button>
+</div>
+</br>
+<div class="card">
+    <div class="card-front">
+        <span class="card-rank-top">A</span>
+        <span class="card-suit">♠</span>
+        <span class="card-rank-bot">A</span>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-front">
+        <span class="card-rank-top">A</span>
+        <span class="card-suit">♠</span>
+        <span class="card-rank-bot">A</span>
+    </div>
+</div>
+
 </body>
 
 </html>
