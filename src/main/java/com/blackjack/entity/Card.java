@@ -102,9 +102,9 @@ public class Card {
 		case DIAMOND:
 			return "♦";
 		case SPADE:
-			return "♤";
+			return "♠︎";
 		case HEART:
-			return "♡";
+			return "♥︎";
 		case CLUB:
 			return "♣";
 		default:

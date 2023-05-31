@@ -1,3 +1,9 @@
+.card-spread {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
 .card {
     width: 150px;
     height: 220px;
@@ -8,7 +14,7 @@
     margin: 10px;
 }
 
-.card-front, .card-back {
+.card-front, .card-front-red {
     position: absolute;
     top: 0;
     left: 0;
@@ -17,11 +23,15 @@
     backface-visibility: hidden;
 }
 
-.card-front {
+.card-front, .card-front-red {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-left: 10px;
+}
+
+.card-front-red {
+    color: red;
 }
 
 .card-rank-top, .card-rank-bot {

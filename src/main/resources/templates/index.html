@@ -38,7 +38,7 @@
 <ul class="card-spread">
     <li th:each="card : ${dealerHand}">
         <div class="card">
-            <div class="card-front">
+            <div th:class="${card.convertSuit() == '♥︎' or card.convertSuit() == '♦' ? 'card-front-red' : 'card-front'}">
                 <span class="card-rank-top" th:text="${card.convertRank()}"></span>
                 <span class="card-suit" th:text="${card.convertSuit()}"></span>
                 <span class="card-rank-bot" th:text="${card.convertRank()}"></span>
@@ -52,7 +52,7 @@
 <ul class="card-spread">
     <li th:each="card : ${playerHand}">
         <div class="card">
-            <div class="card-front">
+            <div th:class="${card.convertSuit() == '♥︎' or card.convertSuit() == '♦' ? 'card-front-red' : 'card-front'}">
                 <span class="card-rank-top" th:text="${card.convertRank()}"></span>
                 <span class="card-suit" th:text="${card.convertSuit()}"></span>
                 <span class="card-rank-bot" th:text="${card.convertRank()}"></span>
@@ -67,22 +67,6 @@
 <div th:unless="${dealerBust} or ${playerBust} or ${dealerWins} or ${playerWins}">
     <button onclick="hit()">Hit</button>
     <button onclick="stand()">Stand</button>
-</div>
-</br>
-<div class="card">
-    <div class="card-front">
-        <span class="card-rank-top">A</span>
-        <span class="card-suit">♠</span>
-        <span class="card-rank-bot">A</span>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-front">
-        <span class="card-rank-top">A</span>
-        <span class="card-suit">♠</span>
-        <span class="card-rank-bot">A</span>
-    </div>
 </div>
 
 </body>
