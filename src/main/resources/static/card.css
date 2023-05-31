@@ -1,7 +1,13 @@
-.card-spread {
+.card-list {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.card-spread {
+    position: relative;
 }
 
 .card {
@@ -50,4 +56,26 @@
     position: absolute;
     left: 40px;
     bottom: 70px;
+}
+
+.text-overlay {
+    list-style-type: none;
+    position: absolute;
+    top: 60px;
+    left: 40px;
+    z-index: 2;
+    font-size: 80px;
+    transform: rotate(-15deg);
+}
+
+.bust-color {
+    color: red;
+}
+
+.winner-color {
+    color: gold;
+}
+
+.lose-color {
+    color: blue;
 }
