@@ -14,7 +14,6 @@ public class Hand {
 	@Id
 	private int id;
 	
-	private int player;
 	private List<Integer> hand;
 	private int score;
 	private boolean bust;
@@ -35,9 +34,8 @@ public class Hand {
 	 * @param score		the current score of the hand
 	 * @param bust		a flag indicating if the hand is bust (score exceeds a limit)
 	 */
-	public Hand(int id, int player, List<Integer> hand, int score, boolean bust) {
+	public Hand(int id, List<Integer> hand, int score, boolean bust) {
 		this.id = id;
-		this.player = player;
 		this.hand = hand;
 		this.score = score;
 		this.bust = bust;
@@ -73,14 +71,6 @@ public class Hand {
 
 	public void setBust(boolean bust) {
 		this.bust = bust;
-	}
-	
-	public int getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(int player) {
-		this.player = player;
 	}
 	
 	/**
