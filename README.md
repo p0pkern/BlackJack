@@ -32,3 +32,13 @@ A Black Jack application built using Spring Boot and Thymeleaf. It provides the 
 4. The player will have a choice to either 'hit' or 'stand'
 5. If the player hits 21, has an equal score as the dealer, or has a greater score less than 21. The player wins, otherwise the game will continue or the dealer wins.
 
+## Screenshots
+
+![Screenshot 1](src/main/resources/static/assets/screenshot1.png)
+*Start of game with actions to hit and stand*
+
+![Screenshot 2](src/main/resources/static/assets/screenshot2.png)
+*Picture of dealer beating player*
+
+![Screenshot 3](src/main/resources/static/assets/screenshot3.png)
+*Picture of player winning by dealer going bust (card values over 21)*
