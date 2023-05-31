@@ -34,7 +34,7 @@ A Black Jack application built using Spring Boot and Thymeleaf. It provides the 
 
 ## Screenshots
 
-![Screenshot 1](/assets/screenshot1)
+![Screenshot 1](/src/main/resources/static/assets/screenshot1.PNG)
 *Start of game with actions to hit and stand*
 
 ![Screenshot 2](/assets/screenshot2)
