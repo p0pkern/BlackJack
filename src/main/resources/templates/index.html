@@ -62,7 +62,7 @@
         <div class="text-overlay">
             <p class="bust-color" th:if="${playerBust}" th:text="'BUST!'"></p>
             <p class="winner-color" th:unless="${playerBust}" th:if="${dealerBust}" th:text="'WINNER!'"></p>
-            <p class="winner-color" th:if="${playerWins}" th:text="'WINNER!'"></p>
+            <p class="winner-color" th:if="${playerWins} and ${!dealerBust}" th:text="'WINNER!'"></p>
             <p class="lose-color" th:if="${dealerWins} and ${!playerBust}" th:text="'LOSE!'"></p>
         </div>
         <ul class="card-list">

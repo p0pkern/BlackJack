@@ -219,13 +219,11 @@ public class BlackJackController {
 		logger.info("Player elects to stand");
 		this.stand = true;
 		
-		while(dealer.getScore() <= player.getScore()) {
+		while(dealer.getScore() <= player.getScore() && !ScoreCard.isBlackJack(dealer.getScore())) {
 			drawACard(dealer);
 			dealerHand = convertHandToCardHand(dealer.getHand());
 			scoreHand(dealerHand, dealer);
 		}
-		
-		logger.info("{}",dealer.getScore());
 		
 		return new RedirectView("/");
 	}
