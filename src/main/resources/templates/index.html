@@ -31,33 +31,35 @@
 
 <h2>Dealer</h2>
 <p th:text="'Score: ' + ${dealerScore}"></p>
-<ul class="card-spread">
-    <li class="text-overlay">
+<div class="card-spread">
+    <div class="text-overlay">
         <p class="bust-color" th:if="${dealerBust}" th:text="'BUST!'"></p>
         <p class="winner-color" th:unless="${dealerBust}" th:if="${playerBust}" th:text="'WINNER!'"></p>
         <p class="winner-color" th:if="${dealerWins}" th:text="'WINNER!'"></p>
         <p class="lose-color" th:if="${playerWins}" th:text="'LOSE!'"></p>
-    </li>
-    <li th:each="card : ${dealerHand}">
-        <div class="card">
-            <div
-                th:class="${card.convertSuit() == '♥︎' or card.convertSuit() == '♦' ? 'card-front-red' : 'card-front'}">
-                <span class="card-rank-top" th:text="${card.convertRank()}"></span>
-                <span class="card-suit" th:text="${card.convertSuit()}"></span>
-                <span class="card-rank-bot" th:text="${card.convertRank()}"></span>
+    </div>
+    <ul class="card-list">
+        <li th:each="card : ${dealerHand}">
+            <div class="card">
+                <div
+                    th:class="${card.convertSuit() == '♥︎' or card.convertSuit() == '♦' ? 'card-front-red' : 'card-front'}">
+                    <span class="card-rank-top" th:text="${card.convertRank()}"></span>
+                    <span class="card-suit" th:text="${card.convertSuit()}"></span>
+                    <span class="card-rank-bot" th:text="${card.convertRank()}"></span>
+                </div>
             </div>
-        </div>
-    </li>
-</ul>
+        </li>
+    </ul>
+</div>
 
 <h2 class="subheading">Player</h2>
 <p th:text="'Score: ' + ${playerScore}"></p>
 <div class="card-spread">
-    <div clas="text-overlay">
-        <p th:if="${playerBust}" th:text="'BUST!'"></p>
-        <p th:unless="${playerBust}" th:if="${dealerBust}" th:text="'WINNER!'"></p>
-        <p th:if="${playerWins}" th:text="'WINNER!'"></p>
-        <p th:if="${dealerWins}" th:text="'LOSE!'"></p>
+    <div class="text-overlay">
+        <p class="bust-color" th:if="${playerBust}" th:text="'BUST!'"></p>
+        <p class="winner-color" th:unless="${playerBust}" th:if="${dealerBust}" th:text="'WINNER!'"></p>
+        <p class="winner-color" th:if="${playerWins}" th:text="'WINNER!'"></p>
+        <p class="lose-color" th:if="${dealerWins}" th:text="'LOSE!'"></p>
     </div>
     <ul class="card-list">
         <li th:each="card : ${playerHand}">
