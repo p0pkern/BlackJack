@@ -23,8 +23,9 @@
 
 <header class="turnHeading">
     <div id="currentCardTracker">
-        <h2>Current Card in Deck</h2>
-        <p th:text="${currentCard}"></p>
+        <h2>Wins</h2>
+        <p th:text="'Dealer: ' + ${numberOfDealerWins}"></p>
+        <p th:text="'Player: ' + ${numberOfPlayerWins}"></p>
     </div>
     <div id="currentTurnTracker">
         <h2>Current Turn</h2>
@@ -39,7 +40,7 @@
         <div class="text-overlay">
             <p class="bust-color" th:if="${dealerBust}" th:text="'BUST!'"></p>
             <p class="winner-color" th:unless="${dealerBust}" th:if="${playerBust}" th:text="'WINNER!'"></p>
-            <p class="winner-color" th:if="${dealerWins}" th:text="'WINNER!'"></p>
+            <p class="winner-color" th:if="${dealerWins}" th:unless="${playerBust}" th:text="'WINNER!'"></p>
             <p class="lose-color" th:if="${playerWins} and ${!dealerBust}" th:text="'LOSE!'"></p>
         </div>
         <ul class="card-list">

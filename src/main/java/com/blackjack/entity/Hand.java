@@ -17,6 +17,7 @@ public class Hand {
 	private List<Integer> hand;
 	private int score;
 	private boolean bust;
+	private boolean handWins;
 	
 	/**
 	 * Default constructor
@@ -73,6 +74,15 @@ public class Hand {
 		this.bust = bust;
 	}
 	
+	
+	public boolean isHandWins() {
+		return handWins;
+	}
+
+	public void setHandWins(boolean handWins) {
+		this.handWins = handWins;
+	}
+
 	/**
 	 * Draws a card and adds it to the hand.
 	 * 

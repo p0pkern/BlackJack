@@ -30,7 +30,9 @@ public class BlackJackController {
 	private List<Card> deck;
 	private boolean stand = false;
 	private static int drawTurn;
-	private static int currentTurn;
+	private int numberOfPlayerWins;
+	private int numberOfDealerWins;
+	private boolean winChecked;
 	private final Logger logger = LoggerFactory.getLogger(BlackJackController.class);
 
 	static {
@@ -41,6 +43,8 @@ public class BlackJackController {
 	public BlackJackController(CardService cardService, HandService handService) {
 		this.cardService = cardService;
 		this.handService = handService;
+		this.numberOfDealerWins = 0;
+		this.numberOfPlayerWins = 0;
 	}
 	
 	private void deleteOldDeck() {
@@ -76,7 +80,6 @@ public class BlackJackController {
 	
 	private void drawACard(Hand currPlayer) {
 		currPlayer.drawCard(drawTurn++);
-		currentTurn++;
 		handService.saveHand(currPlayer);
 	}
 	
@@ -121,6 +124,35 @@ public class BlackJackController {
 		currPlayer.setBust(ScoreCard.isBust(score));
 		currPlayer.setScore(score);
 	}
+	
+	private void checkForWinner() {
+		// Check for bust
+		if (dealer.isBust()) {
+			player.setHandWins(true);
+		} else if (!dealer.isBust() && player.isBust()) {
+			dealer.setHandWins(true);
+		} else if(stand && dealer.getScore() > player.getScore()) {
+			dealer.setHandWins(true);
+		} else if(stand && dealer.getScore() <= player.getScore()) {
+			player.setHandWins(true);
+		}
+		
+		if(ScoreCard.isBlackJack(player.getScore())) {
+			player.setHandWins(true);
+			dealer.setHandWins(false);
+		} else if(ScoreCard.isBlackJack(dealer.getScore())) {
+			dealer.setHandWins(true);
+			player.setHandWins(false);
+		}
+		
+		if(player.isHandWins()) {
+			numberOfPlayerWins += 1;
+		}
+			
+		else if(dealer.isHandWins()) {
+			numberOfDealerWins += 1;
+		}
+	}
 
 	@GetMapping("/")
 	public String start(Model model) {
@@ -131,27 +163,12 @@ public class BlackJackController {
 		scoreHand(dealerHand, dealer);
 		scoreHand(playerHand, player);
 
-		boolean playerWins = false;
-		boolean dealerWins = false;
-		
-		// Check for bust
-		if (dealer.isBust())
-			playerWins = true;
-		else if (!dealer.isBust() && player.isBust())
-			dealerWins = true;
-		else if(ScoreCard.isBlackJack(player.getScore()))
-			playerWins = true;
-		else if(ScoreCard.isBlackJack(dealer.getScore()))
-			dealerWins = true;
-		else if(stand && dealer.getScore() > player.getScore())
-			dealerWins = true;
-		else if(stand && dealer.getScore() <= player.getScore())
-			playerWins = true;
+		boolean playerWins = player.isHandWins();
+		boolean dealerWins = dealer.isHandWins();
 		
 		logger.info("Dealer Wins {}", dealerWins );
 		
 		model.addAttribute("currentCard", drawTurn);
-		model.addAttribute("currentTurn", currentTurn);
 		model.addAttribute("deck", deck);
 
 		model.addAttribute("dealerHand", dealerHand);
@@ -165,6 +182,10 @@ public class BlackJackController {
 		model.addAttribute("playerWins", playerWins);
 		model.addAttribute("dealerBust", dealer.isBust());
 		model.addAttribute("playerBust", player.isBust());
+		
+		// Score tracker
+		model.addAttribute("numberOfPlayerWins", numberOfPlayerWins);
+		model.addAttribute("numberOfDealerWins", numberOfDealerWins);
 
 		return "index";
 	}
@@ -184,6 +205,11 @@ public class BlackJackController {
 			dealerHand = convertHandToCardHand(dealer.getHand());
 		}
 		
+		scoreHand(dealerHand, dealer);
+		scoreHand(playerHand, player);
+		
+		checkForWinner();
+		
 		return new RedirectView("/");
 	}
 
@@ -198,6 +224,8 @@ public class BlackJackController {
 		player.setScore(0);
 		dealer.getHand().clear();
 		player.getHand().clear();
+		player.setHandWins(false);
+		dealer.setHandWins(false);
 		this.stand = false;
 		
 		if(drawTurn > deck.size() - 1) {
@@ -225,6 +253,10 @@ public class BlackJackController {
 			scoreHand(dealerHand, dealer);
 		}
 		
+		scoreHand(dealerHand, dealer);
+		scoreHand(playerHand, player);
+		
+		checkForWinner();
 		return new RedirectView("/");
 	}
 }
