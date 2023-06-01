@@ -32,7 +32,6 @@ public class BlackJackController {
 	private static int drawTurn;
 	private int numberOfPlayerWins;
 	private int numberOfDealerWins;
-	private boolean winChecked;
 	private final Logger logger = LoggerFactory.getLogger(BlackJackController.class);
 
 	static {
