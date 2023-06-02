@@ -114,14 +114,8 @@ public class BlackJackController {
 
 		handService.scoreHand(player);
 		handService.scoreHand(dealer);
-//
-//		boolean playerWins = player.isHandWins();
-//		boolean dealerWins = dealer.isHandWins();
-//		
-//		logger.info("Dealer Wins {}", dealerWins );
-//		
-//		model.addAttribute("currentCard", drawTurn);
-//		model.addAttribute("deck", deck);
+		
+		model.addAttribute("currentCard", drawTurn);
 //
 		model.addAttribute("dealerHand", dealer.getHand());
 		model.addAttribute("dealerScore", dealer.getScore());
