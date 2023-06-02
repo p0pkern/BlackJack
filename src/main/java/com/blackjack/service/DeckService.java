@@ -39,7 +39,7 @@ public class DeckService {
 		
 		Collections.shuffle(deck);
 		
-		cardRepository.saveAll(deck);
+		saveDeck(deck);
 		
 		return deck;
 	}
@@ -62,5 +62,12 @@ public class DeckService {
 	public void deleteAll() {
 		logger.info("Clearing database of current cards.");
 		cardRepository.deleteAll();
+	}
+	
+	public List<Card> refreshDeck() {
+		deleteAll();
+		generateDeck();
+		
+		return getDeck();
 	}
 }

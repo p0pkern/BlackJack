@@ -174,8 +174,7 @@ public class BlackJackController {
 	}
 	
 	private void refreshDeck() {
-		deckService.deleteAll();
-		deck = deckService.getDeck();
+		deck = deckService.refreshDeck();
 		drawTurn = 0;
 	}
 
