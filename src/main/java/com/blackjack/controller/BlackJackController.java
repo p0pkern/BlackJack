@@ -15,6 +15,7 @@ import com.blackjack.service.CardService;
 import com.blackjack.service.DeckService;
 import com.blackjack.service.HandService;
 import com.blackjack.enums.Rank;
+import com.blackjack.exceptions.NoCardExistsException;
 import com.blackjack.models.Card;
 import com.blackjack.models.Hand;
 import com.blackjack.models.ScoreCard;
@@ -52,23 +53,23 @@ public class BlackJackController {
 //		return handService.getHand(player);
 //	}
 //	
-//	private void drawACard(Hand currPlayer) {
-//		Card card = cardService.getCard(drawTurn++);
-//		currPlayer.drawCard(card);
-//		handService.saveHand(currPlayer);
-//	}
+	private void drawACard(Hand currPlayer) throws NoCardExistsException {
+		Card card = cardService.getCard(drawTurn++);
+		currPlayer.drawCard(card);
+		handService.saveHand(currPlayer);
+	}
 	
-	private void startGame() {
+	private void startGame() throws NoCardExistsException {
 		logger.info("Starting game.");
 
 		deck = deckService.getDeck();
 		
 		dealer = handService.getHand(1L);
 		player = handService.getHand(2L);
-//		
-//		drawACard(dealer);
-//
-//		drawACard(player);
+		
+		drawACard(dealer);
+		drawACard(player);
+
 //
 //		handService.saveHand(player);
 //		handService.saveHand(dealer);

@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.blackjack.exceptions.NoCardExistsException;
 import com.blackjack.models.Card;
 import com.blackjack.repository.CardRepository;
 
@@ -17,8 +18,11 @@ public class CardService {
 		this.cardRepository = cardRepository;
 	}
 	
-	public Card getCard(Long cardId) {
+	public Card getCard(Long cardId) throws NoCardExistsException {
 		Optional<Card> cardOptional = cardRepository.findById(cardId);
-		return cardOptional.orElse(null);
+		if(!cardOptional.isPresent())
+			throw new NoCardExistsException("Card with id" + cardId + " does not exist.");
+		
+		return cardOptional.get();
 	}
 }
