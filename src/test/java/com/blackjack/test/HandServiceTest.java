@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -20,7 +21,9 @@ import com.blackjack.models.Card;
 
 import java.util.List;
 import java.util.ArrayList;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 public class HandServiceTest {
 	
 	@Mock
@@ -31,11 +34,6 @@ public class HandServiceTest {
 	
 	@InjectMocks
 	private HandService handService;
-	
-	@BeforeEach
-	public void setUp() {
-		MockitoAnnotations.openMocks(this);
-	}
 	
 	@Test
     public void testGetHand_ExistingHand() {
