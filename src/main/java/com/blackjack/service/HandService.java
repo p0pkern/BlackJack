@@ -56,9 +56,12 @@ public class HandService {
 	}
 	
 	public void scoreHand(Hand currPlayer) {
+		currPlayer.getHand().stream().forEach(e -> System.out.print(e + " "));
+		System.out.println();
 		List<Card> aces = new ArrayList<>();
 		for(Card card: currPlayer.getHand()) {
-			aces.add(card);
+			if(card.getRank() == Rank.ACE)
+				aces.add(card);
 		}
 		
 		int score = 0;

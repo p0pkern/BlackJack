@@ -116,4 +116,10 @@ public class Card {
 			return "?";
 		}
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "id=" + this.id;
+	}
 }

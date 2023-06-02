@@ -75,27 +75,7 @@ public class BlackJackController {
 		handService.saveHand(dealer);
 	}
 	
-//	private void scoreHand(List<Card> currHand, Hand currPlayer) {
-//		List<Card> aces = new ArrayList<>();
-//		for(Card card: currHand) {
-//			if(card.getRank() == Rank.ACE)
-//				aces.add(card);
-//		}
-//		
-//		int score = 0;
-//		
-//		for (Card card : currHand) {
-//			if(card.getRank() != Rank.ACE)
-//				score += ScoreCard.score(card, score);
-//		}
-//		
-//		for(Card card: aces) {
-//			score += ScoreCard.score(card, score);
-//		}
-//		
-//		currPlayer.setBust(ScoreCard.isBust(score));
-//		currPlayer.setScore(score);
-//	}
+
 //	
 //	private void checkForWinner() {
 //		// Check for bust
@@ -132,8 +112,8 @@ public class BlackJackController {
 		if (drawTurn == 1)
 			startGame();
 
-//		scoreHand(dealer.getHand(), dealer);
-//		scoreHand(player.getHand(), player);
+		handService.scoreHand(player);
+		handService.scoreHand(dealer);
 //
 //		boolean playerWins = player.isHandWins();
 //		boolean dealerWins = dealer.isHandWins();
@@ -144,10 +124,10 @@ public class BlackJackController {
 //		model.addAttribute("deck", deck);
 //
 		model.addAttribute("dealerHand", dealer.getHand());
-//		model.addAttribute("dealerScore", dealer.getScore());
+		model.addAttribute("dealerScore", dealer.getScore());
 //
 		model.addAttribute("playerHand", player.getHand());
-//		model.addAttribute("playerScore", player.getScore());
+		model.addAttribute("playerScore", player.getScore());
 //
 //		// Win conditions
 //		model.addAttribute("dealerWins", dealerWins);
