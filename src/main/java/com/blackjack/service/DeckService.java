@@ -18,6 +18,7 @@ import com.blackjack.repository.CardRepository;
 import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class DeckService {
 	private final CardRepository cardRepository;
 	private final Logger logger = LoggerFactory.getLogger(DeckService.class);
@@ -51,18 +52,9 @@ public class DeckService {
 		
 	}
 	
-	public boolean deckExists() {
-		return cardRepository.existsAny();
-	}
-	
 	public void saveDeck(List<Card> deck) {
 		logger.info("Saving deck");
 		cardRepository.saveAll(deck);
-	}
-	
-	public void deleteAll() {
-		logger.info("Clearing database of current cards.");
-		cardRepository.deleteAll();
 	}
 	
 	public Long countCards() {

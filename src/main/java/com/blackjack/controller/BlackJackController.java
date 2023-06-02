@@ -1,7 +1,5 @@
 package com.blackjack.controller;
 
-import java.util.List;
-
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.blackjack.service.CardService;
 import com.blackjack.service.DeckService;
 import com.blackjack.service.HandService;
 import com.blackjack.exceptions.DeckFailedToSaveException;
 import com.blackjack.exceptions.NoCardExistsException;
-import com.blackjack.models.Card;
 import com.blackjack.models.Hand;
 import com.blackjack.models.ScoreCard;
 

@@ -50,10 +50,6 @@ public class ScoreCard {
 		}
 	}
 
-	public static boolean isBust(Card card, int currScore) {
-		return currScore + score(card, currScore) > 21;
-	}
-
 	public static boolean isBust(int currScore) {
 		return currScore > 21;
 	}
@@ -64,7 +60,6 @@ public class ScoreCard {
 	
 	
 	public static void checkForWinner(Hand dealer, Hand player, boolean stand) {
-		// Check for bust
 		if (dealer.isBust()) {
 			player.setHandWins(true);
 		} else if (!dealer.isBust() && player.isBust()) {

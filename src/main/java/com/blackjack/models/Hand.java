@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 /**
@@ -21,6 +22,10 @@ public class Hand {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hand_id")
 	private List<Card> hand;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Player player;
+	
 	private int score;
 	private boolean bust;
 	private boolean handWins;
@@ -87,6 +92,14 @@ public class Hand {
 
 	public void setHandWins(boolean handWins) {
 		this.handWins = handWins;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 	/**

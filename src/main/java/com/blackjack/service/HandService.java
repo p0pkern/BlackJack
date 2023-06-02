@@ -53,11 +53,6 @@ public class HandService {
 		handRepository.save(hand);
 	}
 	
-	public void deleteAll() {
-		logger.info("Deleting all hands");
-		handRepository.deleteAll();
-	}
-	
 	public void scoreHand(Hand currPlayer) {
 		List<Card> aces = new ArrayList<>();
 		for(Card card: currPlayer.getHand()) {

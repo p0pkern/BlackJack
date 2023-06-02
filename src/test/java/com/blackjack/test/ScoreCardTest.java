@@ -49,17 +49,15 @@ class ScoreCardTest {
 	
 	@Test
 	void testBustOfCard() {
-		Card card = new Card(Rank.KING, Suit.CLUB);
-		int score = 18;
+		int score = 22;
 		
-		assertTrue(ScoreCard.isBust(card, score));
+		assertTrue(ScoreCard.isBust(score));
 	}
 	
 	@Test
 	void testCardIsNotBust() {
-		Card card = new Card(Rank.ACE, Suit.CLUB);
 		int score = 11;
-		assertFalse(ScoreCard.isBust(card, score));
+		assertFalse(ScoreCard.isBust(score));
 	}
 	
 	@Test
