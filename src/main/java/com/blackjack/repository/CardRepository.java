@@ -1,6 +1,7 @@
 package com.blackjack.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.blackjack.models.Card;
 
@@ -9,5 +10,6 @@ import com.blackjack.models.Card;
  * It extends the JpaRepository interface, providing additional methods for working with cards.
  */
 public interface CardRepository extends JpaRepository<Card, Long>{
-	boolean existsBy();
+	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Card c")
+	boolean existsAny();
 }

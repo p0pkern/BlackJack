@@ -15,6 +15,7 @@ import com.blackjack.service.CardService;
 import com.blackjack.service.DeckService;
 import com.blackjack.service.HandService;
 import com.blackjack.enums.Rank;
+import com.blackjack.exceptions.DeckFailedToSaveException;
 import com.blackjack.exceptions.NoCardExistsException;
 import com.blackjack.models.Card;
 import com.blackjack.models.Hand;
@@ -35,7 +36,7 @@ public class BlackJackController {
 	private final Logger logger = LoggerFactory.getLogger(BlackJackController.class);
 
 	static {
-		drawTurn = 0L;
+		drawTurn = 1L;
 	}
 
 	@Autowired
@@ -59,10 +60,10 @@ public class BlackJackController {
 		handService.saveHand(currPlayer);
 	}
 	
-	private void startGame() throws NoCardExistsException {
+	private void startGame() throws NoCardExistsException, DeckFailedToSaveException, InterruptedException {
 		logger.info("Starting game.");
 
-		deck = deckService.getDeck();
+		deckService.generateDeck();
 		
 		dealer = handService.getHand(1L);
 		player = handService.getHand(2L);
@@ -70,9 +71,8 @@ public class BlackJackController {
 		drawACard(dealer);
 		drawACard(player);
 
-//
-//		handService.saveHand(player);
-//		handService.saveHand(dealer);
+		handService.saveHand(player);
+		handService.saveHand(dealer);
 	}
 	
 //	private void scoreHand(List<Card> currHand, Hand currPlayer) {
@@ -127,9 +127,9 @@ public class BlackJackController {
 //	}
 
 	@GetMapping("/")
-	public String start(Model model) {
+	public String start(Model model) throws NoCardExistsException, DeckFailedToSaveException, InterruptedException {
 
-		if (drawTurn == 0)
+		if (drawTurn == 1)
 			startGame();
 
 //		scoreHand(dealer.getHand(), dealer);
@@ -143,10 +143,10 @@ public class BlackJackController {
 //		model.addAttribute("currentCard", drawTurn);
 //		model.addAttribute("deck", deck);
 //
-//		model.addAttribute("dealerHand", dealer.getHand());
+		model.addAttribute("dealerHand", dealer.getHand());
 //		model.addAttribute("dealerScore", dealer.getScore());
 //
-//		model.addAttribute("playerHand", player.getHand());
+		model.addAttribute("playerHand", player.getHand());
 //		model.addAttribute("playerScore", player.getScore());
 //
 //		// Win conditions

@@ -11,8 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.blackjack.enums.Rank;
 import com.blackjack.enums.Suit;
+import com.blackjack.exceptions.DeckFailedToSaveException;
 import com.blackjack.models.Card;
 import com.blackjack.repository.CardRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class DeckService {
@@ -24,7 +27,7 @@ public class DeckService {
 		this.cardRepository = cardRepository;
 	}
 	
-	public List<Card> generateDeck() {
+	public boolean generateDeck() throws DeckFailedToSaveException {
 		logger.info("Generating new deck");
 		List<Card> deck = new ArrayList<>();
 		
@@ -39,19 +42,17 @@ public class DeckService {
 		
 		Collections.shuffle(deck);
 		
-		saveDeck(deck);
-		
-		return deck;
-	}
-	
-	public List<Card> getDeck(){
-		logger.info("Verifying if there are any cards in the database");
-		
-		if(!cardRepository.existsBy()) {
-			generateDeck();
+		try {
+			saveDeck(deck);
+			return true;
+		} catch (Exception e) {
+			throw new DeckFailedToSaveException("Deck failed to save");
 		}
 		
-		return cardRepository.findAll();
+	}
+	
+	public boolean deckExists() {
+		return cardRepository.existsAny();
 	}
 	
 	public void saveDeck(List<Card> deck) {
@@ -64,10 +65,4 @@ public class DeckService {
 		cardRepository.deleteAll();
 	}
 	
-	public List<Card> refreshDeck() {
-		deleteAll();
-		generateDeck();
-		
-		return getDeck();
-	}
 }
