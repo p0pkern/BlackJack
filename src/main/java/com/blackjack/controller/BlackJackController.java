@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.blackjack.service.CardService;
+import com.blackjack.service.DeckService;
 import com.blackjack.service.HandService;
 import com.blackjack.enums.Rank;
 import com.blackjack.models.Card;
@@ -20,8 +20,8 @@ import com.blackjack.models.ScoreCard;
 
 @Controller
 public class BlackJackController {
-	private final CardService cardService;
 	private final HandService handService;
+	private final DeckService deckService;
 	private Hand dealer;
 	private Hand player;
 	private List<Card> dealerHand = new ArrayList<>();
@@ -38,9 +38,10 @@ public class BlackJackController {
 	}
 
 	@Autowired
-	public BlackJackController(CardService cardService, HandService handService) {
-		this.cardService = cardService;
+	public BlackJackController(HandService handService,
+							   DeckService deckService) {
 		this.handService = handService;
+		this.deckService = deckService;
 		this.numberOfDealerWins = 0;
 		this.numberOfPlayerWins = 0;
 	}
@@ -69,7 +70,7 @@ public class BlackJackController {
 		logger.info("Starting game.");
 		handService.deleteAll();
 		
-		deck = cardService.getDeck();
+		deck = deckService.getDeck();
 		
 		dealer = this.getHand(1);
 		player = this.getHand(2);
@@ -173,8 +174,8 @@ public class BlackJackController {
 	}
 	
 	private void refreshDeck() {
-		cardService.deleteAll();
-		deck = cardService.getDeck();
+		deckService.deleteAll();
+		deck = deckService.getDeck();
 		drawTurn = 0;
 	}
 
