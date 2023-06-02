@@ -1,10 +1,14 @@
 package com.blackjack.service;
 
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.blackjack.models.Card;
 import com.blackjack.models.Hand;
 import com.blackjack.repository.HandRepository;
 
@@ -46,4 +50,5 @@ public class HandService {
 		logger.info("Deleting all hands");
 		handRepository.deleteAll();
 	}
+	
 }
