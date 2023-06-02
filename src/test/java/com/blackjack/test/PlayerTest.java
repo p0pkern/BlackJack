@@ -17,12 +17,12 @@ class PlayerTest {
         // Create a list of past hands
         List<Hand> pastHands = new ArrayList<>();
         Hand hand1 = new Hand();
-        hand1.setId(1);
+        hand1.setId(1L);
         pastHands.add(hand1);
 
         // Create the current hand
         Hand currentHand = new Hand();
-        currentHand.setId(2);
+        currentHand.setId(2L);
 
         // Create a player
         Player player = new Player();

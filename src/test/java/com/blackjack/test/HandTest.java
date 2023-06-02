@@ -46,7 +46,7 @@ class HandTest {
 
 		// Create a hand
 		Hand hand = new Hand();
-		hand.setId(1);
+		hand.setId(1L);
 		hand.setHand(cards);
 		hand.setScore(21);
 		hand.setBust(false);

@@ -41,7 +41,7 @@ public class HandService {
 			hand = handRepository.getReferenceById(id);
 		} else {
 			hand = new Hand();
-			hand.setId(1);
+			hand.setId(1L);
 			saveHand(hand);
 		}
 		
