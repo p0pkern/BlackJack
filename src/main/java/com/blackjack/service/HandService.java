@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blackjack.enums.Rank;
+import com.blackjack.exceptions.NoCardExistsException;
 import com.blackjack.models.Card;
 import com.blackjack.models.Hand;
 import com.blackjack.models.ScoreCard;
@@ -21,11 +22,13 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class HandService {
 	private final HandRepository handRepository;
+	private final CardService cardService;
 	private final Logger logger = LoggerFactory.getLogger(HandService.class);
 	
 	@Autowired
-	public HandService(HandRepository handRepository) {
+	public HandService(HandRepository handRepository, CardService cardService) {
 		this.handRepository = handRepository;
+		this.cardService = cardService;
 	}
 	
 	public Hand getHand(Long id) {
@@ -38,7 +41,7 @@ public class HandService {
 			hand = handRepository.getReferenceById(id);
 		} else {
 			hand = new Hand();
-			hand.setId(1);
+			hand.setId(1L);
 			saveHand(hand);
 		}
 		
@@ -48,11 +51,6 @@ public class HandService {
 	public void saveHand(Hand hand) {
 		logger.info("Saving hand to database id:{} ", hand.getId());
 		handRepository.save(hand);
-	}
-	
-	public void deleteAll() {
-		logger.info("Deleting all hands");
-		handRepository.deleteAll();
 	}
 	
 	public void scoreHand(Hand currPlayer) {
@@ -76,6 +74,12 @@ public class HandService {
 		
 		currPlayer.setBust(ScoreCard.isBust(score));
 		currPlayer.setScore(score);
+	}
+	
+	public void drawACard(Hand currPlayer, Long cardId) throws NoCardExistsException {
+		Card card = cardService.getCard(cardId);
+		currPlayer.drawCard(card);
+		saveHand(currPlayer);
 	}
 	
 }

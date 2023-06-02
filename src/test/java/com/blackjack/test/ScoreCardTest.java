@@ -1,11 +1,9 @@
 package com.blackjack.test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.intThat;
 
 import java.util.List;
 
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import com.blackjack.enums.Rank;
@@ -49,17 +47,15 @@ class ScoreCardTest {
 	
 	@Test
 	void testBustOfCard() {
-		Card card = new Card(Rank.KING, Suit.CLUB);
-		int score = 18;
+		int score = 22;
 		
-		assertTrue(ScoreCard.isBust(card, score));
+		assertTrue(ScoreCard.isBust(score));
 	}
 	
 	@Test
 	void testCardIsNotBust() {
-		Card card = new Card(Rank.ACE, Suit.CLUB);
 		int score = 11;
-		assertFalse(ScoreCard.isBust(card, score));
+		assertFalse(ScoreCard.isBust(score));
 	}
 	
 	@Test

@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 /**
@@ -16,11 +19,16 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Hand {
 	@Id
-	private int id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "hand_id")
 	private List<Card> hand;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Player player;
+	
 	private int score;
 	private boolean bust;
 	private boolean handWins;
@@ -41,18 +49,18 @@ public class Hand {
 	 * @param score		the current score of the hand
 	 * @param bust		a flag indicating if the hand is bust (score exceeds a limit)
 	 */
-	public Hand(int id, List<Card> hand, int score, boolean bust) {
+	public Hand(Long id, List<Card> hand, int score, boolean bust) {
 		this.id = id;
 		this.hand = hand;
 		this.score = score;
 		this.bust = bust;
 	}
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -87,6 +95,14 @@ public class Hand {
 
 	public void setHandWins(boolean handWins) {
 		this.handWins = handWins;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 	/**

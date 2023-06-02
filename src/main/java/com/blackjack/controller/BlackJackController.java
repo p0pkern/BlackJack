@@ -1,8 +1,5 @@
 package com.blackjack.controller;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.blackjack.service.CardService;
 import com.blackjack.service.DeckService;
 import com.blackjack.service.HandService;
-import com.blackjack.enums.Rank;
 import com.blackjack.exceptions.DeckFailedToSaveException;
 import com.blackjack.exceptions.NoCardExistsException;
-import com.blackjack.models.Card;
 import com.blackjack.models.Hand;
 import com.blackjack.models.ScoreCard;
 
@@ -25,10 +19,8 @@ import com.blackjack.models.ScoreCard;
 public class BlackJackController {
 	private final HandService handService;
 	private final DeckService deckService;
-	private final CardService cardService;
 	private Hand dealer;
 	private Hand player;
-	private List<Card> deck;
 	private boolean stand = false;
 	private static Long drawTurn;
 	private int numberOfPlayerWins;
@@ -41,20 +33,14 @@ public class BlackJackController {
 
 	@Autowired
 	public BlackJackController(HandService handService,
-							   DeckService deckService,
-							   CardService cardService) {
+							   DeckService deckService) {
 		this.handService = handService;
 		this.deckService = deckService;
-		this.cardService = cardService;
 		this.numberOfDealerWins = 0;
 		this.numberOfPlayerWins = 0;
 	}
 
-	private void drawACard(Hand currPlayer) throws NoCardExistsException {
-		Card card = cardService.getCard(drawTurn++);
-		currPlayer.drawCard(card);
-		handService.saveHand(currPlayer);
-	}
+	
 	
 	private void startGame() throws NoCardExistsException, DeckFailedToSaveException, InterruptedException {
 		logger.info("Starting game.");
@@ -64,8 +50,8 @@ public class BlackJackController {
 		dealer = handService.getHand(1L);
 		player = handService.getHand(2L);
 		
-		drawACard(dealer);
-		drawACard(player);
+		handService.drawACard(dealer, drawTurn++);
+		handService.drawACard(player, drawTurn++);
 
 		handService.saveHand(player);
 		handService.saveHand(dealer);
@@ -118,10 +104,10 @@ public class BlackJackController {
 		if(drawTurn >  deckService.countCards()) {
 			deckService.generateDeck();
 		}
-		drawACard(player);
+		handService.drawACard(player, drawTurn++);
 		
 		if(dealer.getScore() < 17 && dealer.getScore() < player.getScore()) {
-			drawACard(dealer);
+			handService.drawACard(dealer, drawTurn++);
 		}
 		
 		handService.scoreHand(dealer);
@@ -152,8 +138,8 @@ public class BlackJackController {
 			deckService.generateDeck();
 		}
 		
-		drawACard(player);
-		drawACard(dealer);
+		handService.drawACard(player, drawTurn++);
+		handService.drawACard(dealer, drawTurn++);
 		
 		ScoreCard.checkForWinner(dealer, player, stand);
 		
@@ -166,7 +152,7 @@ public class BlackJackController {
 		this.stand = true;
 		
 		while(dealer.getScore() <= player.getScore() && !ScoreCard.isBlackJack(dealer.getScore())) {
-			drawACard(dealer);
+			handService.drawACard(dealer, drawTurn++);
 			handService.scoreHand(dealer);
 		}
 		
