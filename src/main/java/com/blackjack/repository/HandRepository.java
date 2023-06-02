@@ -9,6 +9,6 @@ import com.blackjack.models.Hand;
  * It extends the JpaRepository interface, providing additional methods for working with hands.
  * A Hand represents the collection of cards held by a player.
  */
-public interface HandRepository extends JpaRepository<Hand, Integer>{
+public interface HandRepository extends JpaRepository<Hand, Long>{
 
 }

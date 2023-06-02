@@ -3,8 +3,12 @@ package com.blackjack.models;
 import java.util.List;
 import java.util.ArrayList;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 
 /**
  * Represents a hand in the game of Black Jack.
@@ -14,7 +18,9 @@ public class Hand {
 	@Id
 	private int id;
 	
-	private List<Integer> hand;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "hand_id")
+	private List<Card> hand;
 	private int score;
 	private boolean bust;
 	private boolean handWins;
@@ -35,7 +41,7 @@ public class Hand {
 	 * @param score		the current score of the hand
 	 * @param bust		a flag indicating if the hand is bust (score exceeds a limit)
 	 */
-	public Hand(int id, List<Integer> hand, int score, boolean bust) {
+	public Hand(int id, List<Card> hand, int score, boolean bust) {
 		this.id = id;
 		this.hand = hand;
 		this.score = score;
@@ -50,11 +56,11 @@ public class Hand {
 		this.id = id;
 	}
 
-	public List<Integer> getHand() {
+	public List<Card> getHand() {
 		return hand;
 	}
 
-	public void setHand(List<Integer> hand) {
+	public void setHand(List<Card> hand) {
 		this.hand = hand;
 	}
 
@@ -88,7 +94,7 @@ public class Hand {
 	 * 
 	 * @param the card to be added to the hand.
 	 */
-	public void drawCard(int card) {
+	public void drawCard(Card card) {
 		this.hand.add(card);
 	}
 }

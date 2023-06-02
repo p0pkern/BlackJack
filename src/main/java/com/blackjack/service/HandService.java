@@ -24,7 +24,7 @@ public class HandService {
 		this.handRepository = handRepository;
 	}
 	
-	public Hand getHand(int id) {
+	public Hand getHand(Long id) {
 		logger.info("Retrieving hand from database id: {}", id);
 		boolean exists = handRepository.existsById(id);
 		

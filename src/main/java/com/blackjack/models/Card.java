@@ -4,9 +4,11 @@ import com.blackjack.enums.Rank;
 import com.blackjack.enums.Suit;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 /**
  * The Card class represents a single card from the standard 52 card, card deck.
  * e.g. the ones that Bicycle has produced.
@@ -27,6 +29,9 @@ public class Card {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Hand hand;
 	
 	private Rank rank;
 	private Suit suit;
