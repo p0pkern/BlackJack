@@ -1,16 +1,24 @@
 package com.blackjack.service;
 
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.blackjack.entity.Hand;
+import com.blackjack.enums.Rank;
+import com.blackjack.models.Card;
+import com.blackjack.models.Hand;
+import com.blackjack.models.ScoreCard;
 import com.blackjack.repository.HandRepository;
 
-import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class HandService {
 	private final HandRepository handRepository;
 	private final Logger logger = LoggerFactory.getLogger(HandService.class);
@@ -20,7 +28,7 @@ public class HandService {
 		this.handRepository = handRepository;
 	}
 	
-	public Hand getHand(int id) {
+	public Hand getHand(Long id) {
 		logger.info("Retrieving hand from database id: {}", id);
 		boolean exists = handRepository.existsById(id);
 		
@@ -46,4 +54,28 @@ public class HandService {
 		logger.info("Deleting all hands");
 		handRepository.deleteAll();
 	}
+	
+	public void scoreHand(Hand currPlayer) {
+		List<Card> aces = new ArrayList<>();
+		for(Card card: currPlayer.getHand()) {
+			if(card.getRank() == Rank.ACE)
+				aces.add(card);
+		}
+		
+		int score = 0;
+		
+		for(Card card: currPlayer.getHand()) {
+			if(card.getRank() != Rank.ACE) {
+				score += ScoreCard.score(card, score);
+			}
+		}
+		
+		for(Card card: aces) {
+			score += ScoreCard.score(card, score);
+		}
+		
+		currPlayer.setBust(ScoreCard.isBust(score));
+		currPlayer.setScore(score);
+	}
+	
 }
