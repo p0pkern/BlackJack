@@ -14,18 +14,30 @@ import com.blackjack.enums.Suit;
 import com.blackjack.models.Card;
 import com.blackjack.repository.CardRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class CardService {
 	private final CardRepository cardRepository;
+	private final DeckService deckService;
 	private final Logger logger = LoggerFactory.getLogger(CardService.class);
 	
 	@Autowired
-	public CardService(CardRepository cardRepository) {
+	public CardService(CardRepository cardRepository,
+					   DeckService deckService) {
 		this.cardRepository = cardRepository;
+		this.deckService = deckService;
 	}
 	
-	public List<Card> getAllCards(){
-		logger.info("Retrieving all cards");
+	
+	public List<Card> getDeck(){
+		logger.info("Verifying if there are any cards in the database");
+		
+		if(!cardRepository.existsAny()) {
+			generateDeck();
+		}
+		
 		return cardRepository.findAll();
 	}
 	
@@ -34,26 +46,13 @@ public class CardService {
 		cardRepository.saveAll(deck);
 	}
 	
-	public List<Card> generateDeck() {
-		logger.info("Generating new deck");
-		List<Card> deck = new ArrayList<>();
-		
-		for(Suit suit : Suit.values()) {
-			for(Rank rank: Rank.values()) {
-				Card card = new Card();
-				card.setRank(rank);
-				card.setSuit(suit);
-				deck.add(card);
-			}
-		}
-		
-		Collections.shuffle(deck);
-		
-		return deck;
-	}
-	
 	public void deleteAll() {
 		logger.info("Deleting all cards");
 		cardRepository.deleteAll();
+	}
+	
+	public void generateDeck() {
+		List<Card> deck = deckService.generateDeck();
+		cardRepository.saveAll(deck);
 	}
 }
