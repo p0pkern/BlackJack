@@ -65,4 +65,8 @@ public class DeckService {
 		cardRepository.deleteAll();
 	}
 	
+	public Long countCards() {
+		return cardRepository.countCards();
+	}
+	
 }

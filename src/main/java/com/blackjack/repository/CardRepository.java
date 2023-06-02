@@ -12,4 +12,7 @@ import com.blackjack.models.Card;
 public interface CardRepository extends JpaRepository<Card, Long>{
 	@Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Card c")
 	boolean existsAny();
+	
+	@Query("SELECT COUNT(c) FROM Card c")
+	long countCards();
 }

@@ -50,10 +50,6 @@ public class BlackJackController {
 		this.numberOfPlayerWins = 0;
 	}
 
-//	private Hand getHand(int player) {
-//		return handService.getHand(player);
-//	}
-//	
 	private void drawACard(Hand currPlayer) throws NoCardExistsException {
 		Card card = cardService.getCard(drawTurn++);
 		currPlayer.drawCard(card);
@@ -75,36 +71,16 @@ public class BlackJackController {
 		handService.saveHand(dealer);
 	}
 	
+	
+	private void updatePlayerWins() {
+		if (player.isHandWins()) {
+			numberOfPlayerWins += 1;
+		}
 
-//	
-//	private void checkForWinner() {
-//		// Check for bust
-//		if (dealer.isBust()) {
-//			player.setHandWins(true);
-//		} else if (!dealer.isBust() && player.isBust()) {
-//			dealer.setHandWins(true);
-//		} else if(stand && dealer.getScore() > player.getScore()) {
-//			dealer.setHandWins(true);
-//		} else if(stand && dealer.getScore() <= player.getScore()) {
-//			player.setHandWins(true);
-//		}
-//		
-//		if(ScoreCard.isBlackJack(player.getScore())) {
-//			player.setHandWins(true);
-//			dealer.setHandWins(false);
-//		} else if(ScoreCard.isBlackJack(dealer.getScore())) {
-//			dealer.setHandWins(true);
-//			player.setHandWins(false);
-//		}
-//		
-//		if(player.isHandWins()) {
-//			numberOfPlayerWins += 1;
-//		}
-//			
-//		else if(dealer.isHandWins()) {
-//			numberOfDealerWins += 1;
-//		}
-//	}
+		else if (dealer.isHandWins()) {
+			numberOfDealerWins += 1;
+		}
+	}
 
 	@GetMapping("/")
 	public String start(Model model) throws NoCardExistsException, DeckFailedToSaveException, InterruptedException {
@@ -116,90 +92,90 @@ public class BlackJackController {
 		handService.scoreHand(dealer);
 		
 		model.addAttribute("currentCard", drawTurn);
-//
+
 		model.addAttribute("dealerHand", dealer.getHand());
 		model.addAttribute("dealerScore", dealer.getScore());
-//
+
 		model.addAttribute("playerHand", player.getHand());
 		model.addAttribute("playerScore", player.getScore());
-//
-//		// Win conditions
-//		model.addAttribute("dealerWins", dealerWins);
-//		model.addAttribute("playerWins", playerWins);
-//		model.addAttribute("dealerBust", dealer.isBust());
-//		model.addAttribute("playerBust", player.isBust());
-//		
-//		// Score tracker
-//		model.addAttribute("numberOfPlayerWins", numberOfPlayerWins);
-//		model.addAttribute("numberOfDealerWins", numberOfDealerWins);
+
+		// Win conditions
+		model.addAttribute("dealerWins", dealer.isHandWins());
+		model.addAttribute("playerWins", player.isHandWins());
+		model.addAttribute("dealerBust", dealer.isBust());
+		model.addAttribute("playerBust", player.isBust());
+		
+		// Score tracker
+		model.addAttribute("numberOfPlayerWins", numberOfPlayerWins);
+		model.addAttribute("numberOfDealerWins", numberOfDealerWins);
 
 		return "index";
 	}
 	
-//	private void refreshDeck() {
-//		deck = deckService.refreshDeck();
-//		drawTurn = 0L;
-//	}
-//
-//	@GetMapping("/hit")
-//	public RedirectView hit(Model model) {
-//		logger.info("Player chooses hit");
-//		if(drawTurn > deck.size() - 1) {
-//			refreshDeck();
-//		}
-//		drawACard(player);
-//		
-//		if(dealer.getScore() < 17 && dealer.getScore() < player.getScore()) {
-//			drawACard(dealer);
-//		}
-//		
-//		scoreHand(dealer.getHand(), dealer);
-//		scoreHand(dealer.getHand(), player);
-//		
-//		checkForWinner();
-//		
-//		return new RedirectView("/");
-//	}
-//
-//	@GetMapping("/newHand")
-//	public RedirectView newHand(Model model) {
-//		logger.info("Player requests new hand");
-//		dealer.getHand().clear();
-//		player.getHand().clear();
-//		dealer.setBust(false);
-//		player.setBust(false);
-//		dealer.setScore(0);
-//		player.setScore(0);
-//		dealer.getHand().clear();
-//		player.getHand().clear();
-//		player.setHandWins(false);
-//		dealer.setHandWins(false);
-//		this.stand = false;
-//		
-//		if(drawTurn > deck.size() - 1) {
-//			refreshDeck();
-//		}
-//		
-//		drawACard(player);
-//		drawACard(dealer);
-//		
-//		return new RedirectView("/");
-//	}
-//	
-//	@GetMapping("/stand")
-//	public RedirectView stand(Model model) {
-//		logger.info("Player elects to stand");
-//		this.stand = true;
-//		
-//		while(dealer.getScore() <= player.getScore() && !ScoreCard.isBlackJack(dealer.getScore())) {
-//			drawACard(dealer);
-//			scoreHand(dealer.getHand(), dealer);
-//		}
-//		
-//		scoreHand(dealer.getHand(), dealer);
-//		scoreHand(player.getHand(), player);
-//		
-//		checkForWinner();
-//		return new RedirectView("/");
-//	}
+	@GetMapping("/hit")
+	public RedirectView hit(Model model) throws NoCardExistsException, DeckFailedToSaveException {
+		logger.info("Player chooses hit");
+		if(drawTurn >  deckService.countCards()) {
+			deckService.generateDeck();
+		}
+		drawACard(player);
+		
+		if(dealer.getScore() < 17 && dealer.getScore() < player.getScore()) {
+			drawACard(dealer);
+		}
+		
+		handService.scoreHand(dealer);
+		handService.scoreHand(player);
+		
+		ScoreCard.checkForWinner(dealer, player, stand);
+		updatePlayerWins();
+		
+		return new RedirectView("/");
+	}
+
+	@GetMapping("/newHand")
+	public RedirectView newHand(Model model) throws DeckFailedToSaveException, NoCardExistsException {
+		logger.info("Player requests new hand");
+		dealer.getHand().clear();
+		player.getHand().clear();
+		dealer.setBust(false);
+		player.setBust(false);
+		dealer.setScore(0);
+		player.setScore(0);
+		dealer.getHand().clear();
+		player.getHand().clear();
+		player.setHandWins(false);
+		dealer.setHandWins(false);
+		this.stand = false;
+		
+		if(drawTurn >  deckService.countCards()) {
+			deckService.generateDeck();
+		}
+		
+		drawACard(player);
+		drawACard(dealer);
+		
+		ScoreCard.checkForWinner(dealer, player, stand);
+		
+		return new RedirectView("/");
+	}
+	
+	@GetMapping("/stand")
+	public RedirectView stand(Model model) throws NoCardExistsException {
+		logger.info("Player elects to stand");
+		this.stand = true;
+		
+		while(dealer.getScore() <= player.getScore() && !ScoreCard.isBlackJack(dealer.getScore())) {
+			drawACard(dealer);
+			handService.scoreHand(dealer);
+		}
+		
+		handService.scoreHand(dealer);
+		handService.scoreHand(player);
+		
+		ScoreCard.checkForWinner(dealer, player, stand);
+		updatePlayerWins();
+		
+		return new RedirectView("/");
+	}
 }

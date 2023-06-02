@@ -7,14 +7,14 @@ package com.blackjack.models;
  */
 public class ScoreCard {
 	/**
-     * Calculates the score value of a given card.
-     *
-     * @param card      	the card to calculate the score for
-     * @param currScore 	the current score of the hand
-     * @return the score 	value of the card
-     */
+	 * Calculates the score value of a given card.
+	 *
+	 * @param card      the card to calculate the score for
+	 * @param currScore the current score of the hand
+	 * @return the score value of the card
+	 */
 	public static int score(Card card, int currScore) {
-		
+
 		switch (card.getRank()) {
 		case TWO:
 			return 2;
@@ -49,16 +49,39 @@ public class ScoreCard {
 			return 0;
 		}
 	}
-	
+
 	public static boolean isBust(Card card, int currScore) {
 		return currScore + score(card, currScore) > 21;
 	}
-	
+
 	public static boolean isBust(int currScore) {
 		return currScore > 21;
 	}
-	
+
 	public static boolean isBlackJack(int currScore) {
 		return currScore == 21;
+	}
+	
+	
+	public static void checkForWinner(Hand dealer, Hand player, boolean stand) {
+		// Check for bust
+		if (dealer.isBust()) {
+			player.setHandWins(true);
+		} else if (!dealer.isBust() && player.isBust()) {
+			dealer.setHandWins(true);
+		} else if (stand && dealer.getScore() > player.getScore()) {
+			dealer.setHandWins(true);
+		} else if (stand && dealer.getScore() <= player.getScore()) {
+			player.setHandWins(true);
+		}
+
+		if (ScoreCard.isBlackJack(player.getScore())) {
+			player.setHandWins(true);
+			dealer.setHandWins(false);
+		} else if (ScoreCard.isBlackJack(dealer.getScore())) {
+			dealer.setHandWins(true);
+			player.setHandWins(false);
+		}
+
 	}
 }
