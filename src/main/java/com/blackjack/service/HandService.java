@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.blackjack.entity.Hand;
+import com.blackjack.models.Hand;
 import com.blackjack.repository.HandRepository;
 
 import jakarta.persistence.EntityManager;

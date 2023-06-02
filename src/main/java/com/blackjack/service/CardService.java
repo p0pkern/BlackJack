@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.blackjack.entity.Card;
 import com.blackjack.enums.Rank;
 import com.blackjack.enums.Suit;
+import com.blackjack.models.Card;
 import com.blackjack.repository.CardRepository;
 
 @Service

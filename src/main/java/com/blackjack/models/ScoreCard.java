@@ -1,4 +1,4 @@
-package com.blackjack.entity;
+package com.blackjack.models;
 
 /**
  * The ScoreCard class provides methods for calculating the score of a card in a

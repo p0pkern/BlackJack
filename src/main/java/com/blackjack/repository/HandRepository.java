@@ -2,7 +2,7 @@ package com.blackjack.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.blackjack.entity.Hand;
+import com.blackjack.models.Hand;
 
 /**
  * The HandRepository interface provides CRUD operations for managing Hand entities.

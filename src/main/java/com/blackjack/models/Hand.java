@@ -1,4 +1,4 @@
-package com.blackjack.entity;
+package com.blackjack.models;
 
 import java.util.List;
 import java.util.ArrayList;

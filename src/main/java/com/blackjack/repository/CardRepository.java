@@ -2,7 +2,7 @@ package com.blackjack.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.blackjack.entity.Card;
+import com.blackjack.models.Card;
 
 /**
  * The CardRepository interface provides CRUD operations for managing Card entities.

@@ -13,11 +13,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.blackjack.service.CardService;
 import com.blackjack.service.HandService;
-
-import com.blackjack.entity.Card;
-import com.blackjack.entity.Hand;
-import com.blackjack.entity.ScoreCard;
 import com.blackjack.enums.Rank;
+import com.blackjack.models.Card;
+import com.blackjack.models.Hand;
+import com.blackjack.models.ScoreCard;
 
 @Controller
 public class BlackJackController {

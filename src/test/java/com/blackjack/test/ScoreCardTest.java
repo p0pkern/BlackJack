@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import com.blackjack.enums.Rank;
 import com.blackjack.enums.Suit;
-import com.blackjack.entity.Card;
-import com.blackjack.entity.ScoreCard;
+import com.blackjack.models.Card;
+import com.blackjack.models.ScoreCard;
 
 class ScoreCardTest {
 
